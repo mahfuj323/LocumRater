@@ -56,17 +56,69 @@ export default function SearchPage() {
     rating?: string;
     facilities?: string;
   }>({});
+  const [location] = useLocation();
 
-  // Form for searching
+  // Parse URL search parameters
+  useEffect(() => {
+    const url = new URL(window.location.href);
+    const params: {
+      location?: string;
+      role?: string;
+      rating?: string;
+      facilities?: string;
+    } = {};
+
+    if (url.searchParams.has('location')) {
+      params.location = url.searchParams.get('location') || undefined;
+    }
+    
+    if (url.searchParams.has('role')) {
+      params.role = url.searchParams.get('role') || undefined;
+    }
+    
+    if (url.searchParams.has('rating')) {
+      params.rating = url.searchParams.get('rating') || undefined;
+    }
+    
+    if (url.searchParams.has('facilities')) {
+      params.facilities = url.searchParams.get('facilities') || undefined;
+    }
+
+    // Only update if there are actual search parameters
+    if (Object.keys(params).length > 0) {
+      setSearchParams(params);
+    }
+  }, [location]);
+
+  // Form for searching with URL param defaults
   const form = useForm<SearchFormValues>({
     resolver: zodResolver(searchSchema),
     defaultValues: {
-      location: "",
-      role: "",
-      rating: "",
-      facilities: [],
+      location: searchParams.location || "",
+      role: searchParams.role || "",
+      rating: searchParams.rating || "",
+      facilities: searchParams.facilities ? searchParams.facilities.split(',') : [],
     },
   });
+  
+  // Update form values when search params change
+  useEffect(() => {
+    if (searchParams.location) {
+      form.setValue('location', searchParams.location);
+    }
+    
+    if (searchParams.role) {
+      form.setValue('role', searchParams.role);
+    }
+    
+    if (searchParams.rating) {
+      form.setValue('rating', searchParams.rating);
+    }
+    
+    if (searchParams.facilities) {
+      form.setValue('facilities', searchParams.facilities.split(','));
+    }
+  }, [searchParams, form]);
 
   // Fetch workplaces with search params
   const {
@@ -94,25 +146,37 @@ export default function SearchPage() {
     enabled: activeTab === "agencies",
   });
 
+  const [, setUrlLocation] = useLocation();
+
   const onSubmit = (data: SearchFormValues) => {
     const params: any = {};
+    const urlParams = new URLSearchParams();
     
     if (data.location && data.location.trim() !== "") {
       params.location = data.location.trim();
+      urlParams.set('location', data.location.trim());
     }
     
     if (data.role && data.role !== "") {
       params.role = data.role;
+      urlParams.set('role', data.role);
     }
     
     if (data.rating && data.rating !== "") {
       params.rating = data.rating;
+      urlParams.set('rating', data.rating);
     }
     
     if (data.facilities && data.facilities.length > 0) {
       params.facilities = data.facilities.join(",");
+      urlParams.set('facilities', data.facilities.join(","));
     }
     
+    // Update URL with search parameters
+    const queryString = urlParams.toString();
+    setUrlLocation(`/search${queryString ? `?${queryString}` : ''}`, { replace: true });
+    
+    // Update state
     setSearchParams(params);
   };
 
@@ -332,6 +396,7 @@ export default function SearchPage() {
                 <Button variant="outline" onClick={() => {
                   form.reset();
                   setSearchParams({});
+                  setUrlLocation('/search', { replace: true });
                 }} className="mt-4">
                   Clear Filters
                 </Button>
