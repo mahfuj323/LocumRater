@@ -38,11 +38,6 @@ export default function Navbar() {
                 Home
               </span>
             </Link>
-            <Link href="/search">
-              <span className={`font-medium hover:text-primary transition ${location === '/search' ? 'text-primary' : 'text-slate-700'}`}>
-                Search
-              </span>
-            </Link>
             <Link href="/rate">
               <span className={`font-medium hover:text-primary transition ${location === '/rate' ? 'text-primary' : 'text-slate-700'}`}>
                 Rate
@@ -128,11 +123,6 @@ export default function Navbar() {
             <Link href="/" onClick={closeMenu}>
               <span className={`block py-2 font-medium hover:text-primary transition ${location === '/' ? 'text-primary' : 'text-slate-700'}`}>
                 Home
-              </span>
-            </Link>
-            <Link href="/search" onClick={closeMenu}>
-              <span className={`block py-2 font-medium hover:text-primary transition ${location === '/search' ? 'text-primary' : 'text-slate-700'}`}>
-                Search
               </span>
             </Link>
             <Link href="/rate" onClick={closeMenu}>
