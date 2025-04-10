@@ -14,7 +14,7 @@ export default function Footer() {
               <span className="text-xl font-bold text-white">Rate My Locum</span>
             </div>
             <p className="text-slate-400 mb-4">
-              Helping healthcare professionals find the best locum opportunities and workplaces.
+              Because your time matters. No more walking into stressful environments or unclear expectations. Get honest insights before you commit.
             </p>
             <div className="flex space-x-4">
               <a href="#" className="text-slate-400 hover:text-white transition">
