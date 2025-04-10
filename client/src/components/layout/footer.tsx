@@ -1,32 +1,8 @@
 import { Link } from "wouter";
 import { PlusCircle, Twitter, Facebook, Instagram, Mail, Phone, MapPin } from "lucide-react";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/hooks/use-toast";
 
 export default function Footer() {
-  const { toast } = useToast();
-
-  const handleSubscribe = (e: React.FormEvent) => {
-    e.preventDefault();
-    const form = e.target as HTMLFormElement;
-    const email = (form.elements.namedItem('email') as HTMLInputElement).value;
-    
-    if (!email) {
-      toast({
-        title: "Email required",
-        description: "Please enter your email address",
-        variant: "destructive",
-      });
-      return;
-    }
-    
-    toast({
-      title: "Subscribed!",
-      description: "Thank you for subscribing to our newsletter",
-    });
-    form.reset();
-  };
 
   return (
     <footer className="bg-slate-800 text-slate-200 py-10">
@@ -116,21 +92,17 @@ export default function Footer() {
           </div>
 
           <div>
-            <h3 className="text-lg font-semibold mb-4">Newsletter</h3>
-            <p className="text-slate-400 mb-4">
-              Subscribe to our newsletter for updates on new features and locum opportunities.
-            </p>
-            <form className="flex" onSubmit={handleSubscribe}>
-              <Input
-                type="email"
-                name="email"
-                placeholder="Your email"
-                className="rounded-r-none bg-slate-700 border-slate-600 text-white"
-              />
-              <Button type="submit" className="rounded-l-none">
-                Subscribe
-              </Button>
-            </form>
+            <h3 className="text-lg font-semibold mb-4">Contact</h3>
+            <ul className="space-y-3">
+              <li className="flex items-start">
+                <Mail className="h-5 w-5 mr-2 text-slate-400" />
+                <span className="text-slate-400">info@ratemylocum.com</span>
+              </li>
+              <li className="flex items-start">
+                <MapPin className="h-5 w-5 mr-2 text-slate-400" />
+                <span className="text-slate-400">United Kingdom</span>
+              </li>
+            </ul>
           </div>
         </div>
 
