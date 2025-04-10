@@ -1,4 +1,5 @@
 import { pgTable, text, serial, integer, timestamp, boolean, doublePrecision } from "drizzle-orm/pg-core";
+import { relations } from "drizzle-orm";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -125,6 +126,54 @@ export const insertContactSchema = createInsertSchema(contacts).pick({
   subject: true,
   message: true,
 });
+
+// Relations
+export const usersRelations = relations(users, ({ many }) => ({
+  workplaceReviews: many(workplaceReviews),
+  agencyReviews: many(agencyReviews),
+  workplaces: many(workplaces, { relationName: "created_workplaces" }),
+  agencies: many(agencies, { relationName: "created_agencies" }),
+}));
+
+export const workplacesRelations = relations(workplaces, ({ one, many }) => ({
+  creator: one(users, {
+    fields: [workplaces.createdBy],
+    references: [users.id],
+    relationName: "created_workplaces",
+  }),
+  reviews: many(workplaceReviews),
+}));
+
+export const agenciesRelations = relations(agencies, ({ one, many }) => ({
+  creator: one(users, {
+    fields: [agencies.createdBy],
+    references: [users.id],
+    relationName: "created_agencies",
+  }),
+  reviews: many(agencyReviews),
+}));
+
+export const workplaceReviewsRelations = relations(workplaceReviews, ({ one }) => ({
+  workplace: one(workplaces, {
+    fields: [workplaceReviews.workplaceId],
+    references: [workplaces.id],
+  }),
+  user: one(users, {
+    fields: [workplaceReviews.userId],
+    references: [users.id],
+  }),
+}));
+
+export const agencyReviewsRelations = relations(agencyReviews, ({ one }) => ({
+  agency: one(agencies, {
+    fields: [agencyReviews.agencyId],
+    references: [agencies.id],
+  }),
+  user: one(users, {
+    fields: [agencyReviews.userId],
+    references: [users.id],
+  }),
+}));
 
 // Export types
 export type User = typeof users.$inferSelect;
