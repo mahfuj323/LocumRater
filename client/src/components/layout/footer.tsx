@@ -11,11 +11,13 @@ export default function Footer() {
         <div className="grid md:grid-cols-4 gap-8">
           <div>
             <div className="mb-4">
-              <img 
-                src={logo} 
-                alt="Rate My Locum Logo" 
-                className="h-20"
-              />
+              <div className="bg-white inline-block p-2 rounded-lg">
+                <img 
+                  src={logo} 
+                  alt="Rate My Locum Logo" 
+                  className="h-20"
+                />
+              </div>
             </div>
             <p className="text-slate-400 mb-4">
               Because your time matters. No more walking into stressful environments or unclear expectations. Get honest insights before you commit.
@@ -112,11 +114,13 @@ export default function Footer() {
 
         <div className="border-t border-slate-700 mt-10 pt-6 flex flex-col md:flex-row justify-between items-center">
           <div className="flex items-center">
-            <img 
-              src={logo} 
-              alt="Rate My Locum Logo" 
-              className="h-10 mr-2"
-            />
+            <div className="bg-white inline-block p-1 rounded-lg mr-2">
+              <img 
+                src={logo} 
+                alt="Rate My Locum Logo" 
+                className="h-10"
+              />
+            </div>
             <p className="text-slate-400 text-sm">&copy; {new Date().getFullYear()} All rights reserved.</p>
           </div>
           <div className="mt-4 md:mt-0 text-sm text-slate-400">
