@@ -5,6 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { StarRating } from "@/components/ui/star-rating";
 import { Loader2 } from "lucide-react";
 import logo from "../assets/logo.png";
+import pharmacyMap from "../assets/pharmacy-map.png";
 
 export default function HomePage() {
   // Temporarily disable auth check to get the app running
@@ -74,9 +75,9 @@ export default function HomePage() {
             <div className="md:w-1/2">
               <div className="rounded-lg shadow-lg overflow-hidden bg-gradient-to-br from-white to-blue-50 aspect-video flex items-center justify-center">
                 <img 
-                  src={logo} 
-                  alt="Rate My Locum Logo" 
-                  className="h-40 md:h-52 transform hover:scale-105 transition-transform"
+                  src={pharmacyMap} 
+                  alt="Pharmacy location map with ratings" 
+                  className="w-full h-full object-cover hover:scale-105 transition-transform"
                 />
               </div>
             </div>
