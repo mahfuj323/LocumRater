@@ -32,15 +32,12 @@ export default function HomePage() {
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row items-center justify-between">
             <div className="md:w-1/2 mb-8 md:mb-0">
-              <div className="flex items-center gap-4 mb-6">
+              <div className="mb-6">
                 <img 
                   src={logo} 
                   alt="Rate My Locum Logo" 
-                  className="h-16 md:h-20"
+                  className="h-20 md:h-28"
                 />
-                <h1 className="text-4xl md:text-5xl font-bold text-slate-800 leading-tight">
-                  Rate My <span className="text-primary">Locum</span>
-                </h1>
               </div>
               <div className="flex flex-col space-y-4 mb-8">
                 <div className="flex items-start">
