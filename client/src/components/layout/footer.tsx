@@ -20,7 +20,7 @@ export default function Footer() {
               </div>
             </div>
             <p className="text-slate-400 mb-4">
-              Because your time matters. No more walking into stressful environments or unclear expectations. Get honest insights before you commit.
+              Because your time matters.
             </p>
             <div className="flex space-x-4">
               <a href="#" className="text-slate-400 hover:text-white transition">
