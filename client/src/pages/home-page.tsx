@@ -34,16 +34,18 @@ export default function HomePage() {
           <div className="flex flex-col md:flex-row items-center justify-between">
             <div className="md:w-1/2 mb-8 md:mb-0">
               <div className="mb-8">
-                <div className="flex justify-center mb-4">
+                <div className="flex flex-col md:flex-row items-center mb-6">
                   <img 
                     src={logo} 
                     alt="Rate My Locum Logo" 
-                    className="h-24 md:h-36"
+                    className="h-24 md:h-36 mb-3 md:mb-0"
                   />
+                  <div className="md:ml-6 md:max-w-lg">
+                    <p className="text-slate-700 font-medium text-center md:text-left text-sm md:text-base lg:text-lg">
+                      The UK's first platform where locum pharmacists, dispensers, optometrists, and other healthcare professionals can rate and review workplaces and agencies.
+                    </p>
+                  </div>
                 </div>
-                <p className="text-slate-700 font-medium text-sm md:text-base lg:text-lg text-center mb-6">
-                  The UK's first platform where locum pharmacists, dispensers, optometrists, and other healthcare professionals can rate and review workplaces and agencies.
-                </p>
               </div>
               <div className="flex flex-col space-y-4 mb-8">
                 <div className="flex items-start">
