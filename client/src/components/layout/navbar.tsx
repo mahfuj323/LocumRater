@@ -1,14 +1,24 @@
-import { useState } from "react";
+import { useState, FormEvent } from "react";
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
-import { PlusCircle, Menu, X } from "lucide-react";
+import { PlusCircle, Menu, X, Search } from "lucide-react";
+import { Input } from "@/components/ui/input";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [location] = useLocation();
+  const [searchQuery, setSearchQuery] = useState("");
+  const [location, navigate] = useLocation();
   
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const closeMenu = () => setIsMenuOpen(false);
+  
+  const handleSearch = (e: FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/search?location=${encodeURIComponent(searchQuery.trim())}`);
+      setSearchQuery("");
+    }
+  };
 
   return (
     <header className="bg-white shadow-sm sticky top-0 z-50">
@@ -22,7 +32,7 @@ export default function Navbar() {
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex space-x-8">
+          <nav className="hidden md:flex space-x-6">
             <Link href="/">
               <span className={`font-medium hover:text-primary transition ${location === '/' ? 'text-primary' : 'text-slate-700'}`}>
                 Home
@@ -44,6 +54,27 @@ export default function Navbar() {
               </span>
             </Link>
           </nav>
+
+          {/* Search Bar */}
+          <div className="hidden md:flex mx-4 flex-1 max-w-xs">
+            <form onSubmit={handleSearch} className="relative w-full">
+              <Input
+                type="text"
+                placeholder="Search workplaces..."
+                className="pr-10"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+              <Button 
+                type="submit" 
+                variant="ghost" 
+                size="icon" 
+                className="absolute right-0 top-0 h-full"
+              >
+                <Search className="h-4 w-4" />
+              </Button>
+            </form>
+          </div>
 
           <div className="hidden md:flex items-center space-x-4">
             <Button variant="ghost" asChild>
@@ -74,6 +105,26 @@ export default function Navbar() {
         {/* Mobile menu */}
         {isMenuOpen && (
           <div className="md:hidden pb-4">
+            {/* Mobile Search */}
+            <form onSubmit={handleSearch} className="relative w-full mb-4">
+              <Input
+                type="text"
+                placeholder="Search workplaces..."
+                className="pr-10"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+              <Button 
+                type="submit" 
+                variant="ghost" 
+                size="icon" 
+                className="absolute right-0 top-0 h-full"
+                onClick={closeMenu}
+              >
+                <Search className="h-4 w-4" />
+              </Button>
+            </form>
+            
             <Link href="/" onClick={closeMenu}>
               <span className={`block py-2 font-medium hover:text-primary transition ${location === '/' ? 'text-primary' : 'text-slate-700'}`}>
                 Home
