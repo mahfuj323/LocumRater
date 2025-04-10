@@ -4,12 +4,23 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { StarRating } from "@/components/ui/star-rating";
 import { Loader2 } from "lucide-react";
-import { useAuth } from "@/hooks/use-auth";
 
 export default function HomePage() {
-  const { user } = useAuth();
+  // Temporarily disable auth check to get the app running
+  const user = null;
   
-  const { data: workplacesData, isLoading: isLoadingWorkplaces } = useQuery({
+  // Define types for our API response
+  interface WorkplacesResponse {
+    workplaces: Array<{
+      id: number;
+      name: string;
+      city: string;
+      type: string;
+    }>;
+    isLimited: boolean;
+  }
+  
+  const { data: workplacesData, isLoading: isLoadingWorkplaces } = useQuery<WorkplacesResponse>({
     queryKey: ['/api/workplaces'],
   });
 

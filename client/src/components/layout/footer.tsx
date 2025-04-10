@@ -57,28 +57,28 @@ export default function Footer() {
             <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
             <ul className="space-y-2">
               <li>
-                <Link href="/">
-                  <a className="text-slate-400 hover:text-white transition">Home</a>
+                <Link href="/" className="text-slate-400 hover:text-white transition">
+                  Home
                 </Link>
               </li>
               <li>
-                <Link href="/rate">
-                  <a className="text-slate-400 hover:text-white transition">Rate a Workplace</a>
+                <Link href="/rate" className="text-slate-400 hover:text-white transition">
+                  Rate a Workplace
                 </Link>
               </li>
               <li>
-                <Link href="/rate">
-                  <a className="text-slate-400 hover:text-white transition">Rate an Agency</a>
+                <Link href="/rate" className="text-slate-400 hover:text-white transition">
+                  Rate an Agency
                 </Link>
               </li>
               <li>
-                <Link href="/search">
-                  <a className="text-slate-400 hover:text-white transition">Search Workplaces</a>
+                <Link href="/search" className="text-slate-400 hover:text-white transition">
+                  Search Workplaces
                 </Link>
               </li>
               <li>
-                <Link href="/contact">
-                  <a className="text-slate-400 hover:text-white transition">Contact Us</a>
+                <Link href="/contact" className="text-slate-400 hover:text-white transition">
+                  Contact Us
                 </Link>
               </li>
             </ul>
@@ -88,28 +88,28 @@ export default function Footer() {
             <h3 className="text-lg font-semibold mb-4">Resources</h3>
             <ul className="space-y-2">
               <li>
-                <Link href="#">
-                  <a className="text-slate-400 hover:text-white transition">User Guides</a>
+                <Link href="#" className="text-slate-400 hover:text-white transition">
+                  User Guides
                 </Link>
               </li>
               <li>
-                <Link href="#">
-                  <a className="text-slate-400 hover:text-white transition">FAQ</a>
+                <Link href="#" className="text-slate-400 hover:text-white transition">
+                  FAQ
                 </Link>
               </li>
               <li>
-                <Link href="#">
-                  <a className="text-slate-400 hover:text-white transition">Terms of Service</a>
+                <Link href="#" className="text-slate-400 hover:text-white transition">
+                  Terms of Service
                 </Link>
               </li>
               <li>
-                <Link href="#">
-                  <a className="text-slate-400 hover:text-white transition">Privacy Policy</a>
+                <Link href="#" className="text-slate-400 hover:text-white transition">
+                  Privacy Policy
                 </Link>
               </li>
               <li>
-                <Link href="#">
-                  <a className="text-slate-400 hover:text-white transition">Cookies Policy</a>
+                <Link href="#" className="text-slate-400 hover:text-white transition">
+                  Cookies Policy
                 </Link>
               </li>
             </ul>
@@ -137,17 +137,11 @@ export default function Footer() {
         <div className="border-t border-slate-700 mt-10 pt-6 flex flex-col md:flex-row justify-between items-center">
           <p className="text-slate-400 text-sm">&copy; {new Date().getFullYear()} Rate My Locum. All rights reserved.</p>
           <div className="mt-4 md:mt-0 text-sm text-slate-400">
-            <Link href="#">
-              <a className="hover:text-white">Terms</a>
-            </Link>
+            <Link href="#" className="hover:text-white">Terms</Link>
             <span className="mx-2">·</span>
-            <Link href="#">
-              <a className="hover:text-white">Privacy</a>
-            </Link>
+            <Link href="#" className="hover:text-white">Privacy</Link>
             <span className="mx-2">·</span>
-            <Link href="#">
-              <a className="hover:text-white">Cookies</a>
-            </Link>
+            <Link href="#" className="hover:text-white">Cookies</Link>
           </div>
         </div>
       </div>
