@@ -77,11 +77,11 @@ export default function HomePage() {
         </div>
       </div>
       
-      {/* How It Works Section */}
+      {/* Why Rate My Locum Section */}
       <div className="container mx-auto px-4 py-16">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-slate-800 mb-4">How Rate My Locum Works</h2>
-          <p className="text-slate-600 max-w-2xl mx-auto">Our platform connects healthcare professionals to help them make informed decisions about locum opportunities.</p>
+          <h2 className="text-3xl font-bold text-slate-800 mb-4">Why Rate My Locum?</h2>
+          <p className="text-slate-600 max-w-2xl mx-auto">Because your time matters. No more walking into stressful environments or unclear expectations. Get honest insights before you commit.</p>
         </div>
         
         <div className="grid md:grid-cols-3 gap-8">
