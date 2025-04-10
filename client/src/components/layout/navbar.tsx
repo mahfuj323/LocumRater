@@ -26,11 +26,11 @@ export default function Navbar() {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between py-4">
           <div className="flex items-center space-x-4">
-            <Link href="/" className="flex items-center">
+            <Link href="/" className="flex items-center mr-8">
               <img 
                 src={logo} 
                 alt="Rate My Locum Logo" 
-                className="h-10"
+                className="h-12"
               />
             </Link>
           </div>
