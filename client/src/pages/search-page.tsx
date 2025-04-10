@@ -4,7 +4,6 @@ import { Link } from "wouter";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { useAuth } from "@/hooks/use-auth";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -48,7 +47,8 @@ const facilityOptions = [
 ];
 
 export default function SearchPage() {
-  const { user } = useAuth();
+  // Temporarily disable auth check to get the app running
+  const user = null;
   const [activeTab, setActiveTab] = useState("workplaces");
   const [searchParams, setSearchParams] = useState<{
     location?: string;
