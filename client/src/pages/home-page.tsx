@@ -176,7 +176,7 @@ export default function HomePage() {
             </div>
           ) : (
             <div className="text-center py-12">
-              <p className="text-slate-600">No workplace reviews yet. Be the first to add one!</p>
+              <p className="text-slate-600">Coming soon! Sign up to see and add workplace reviews.</p>
             </div>
           )}
           
@@ -201,66 +201,11 @@ export default function HomePage() {
             <p className="text-slate-600 max-w-2xl mx-auto">Hear from healthcare professionals who have used Rate My Locum to find great workplaces.</p>
           </div>
           
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div className="bg-white p-6 rounded-lg shadow-sm">
-              <div className="flex items-center mb-4">
-                <StarRating value={5} readOnly />
-              </div>
-              <blockquote className="text-slate-700 mb-6">
-                "Rate My Locum has been a game-changer for my career. I now have reliable information about workplaces before accepting shifts, saving me from bad experiences. The detailed reviews about facilities and payment times are invaluable."
-              </blockquote>
-              <div className="flex items-center">
-                <div className="flex-shrink-0 mr-3">
-                  <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-semibold">
-                    AM
-                  </div>
-                </div>
-                <div>
-                  <div className="font-medium text-slate-800">Amanda M.</div>
-                  <div className="text-sm text-slate-500">Locum Pharmacist, London</div>
-                </div>
-              </div>
-            </div>
-            
-            <div className="bg-white p-6 rounded-lg shadow-sm">
-              <div className="flex items-center mb-4">
-                <StarRating value={5} readOnly />
-              </div>
-              <blockquote className="text-slate-700 mb-6">
-                "As a Muslim locum optometrist, knowing which practices have prayer spaces is essential. Rate My Locum makes it easy to find workplaces that accommodate my needs, and the pay rate information helps me negotiate fair compensation."
-              </blockquote>
-              <div className="flex items-center">
-                <div className="flex-shrink-0 mr-3">
-                  <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-semibold">
-                    MK
-                  </div>
-                </div>
-                <div>
-                  <div className="font-medium text-slate-800">Mohammed K.</div>
-                  <div className="text-sm text-slate-500">Locum Optometrist, Manchester</div>
-                </div>
-              </div>
-            </div>
-            
-            <div className="bg-white p-6 rounded-lg shadow-sm">
-              <div className="flex items-center mb-4">
-                <StarRating value={4} readOnly />
-              </div>
-              <blockquote className="text-slate-700 mb-6">
-                "I used to waste time with agencies that weren't transparent about payment terms. Now I can see which agencies have good reviews and reliable payment times. The workplace ratings have helped me find great teams to work with too."
-              </blockquote>
-              <div className="flex items-center">
-                <div className="flex-shrink-0 mr-3">
-                  <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-semibold">
-                    JT
-                  </div>
-                </div>
-                <div>
-                  <div className="font-medium text-slate-800">James T.</div>
-                  <div className="text-sm text-slate-500">Locum Dispenser, Bristol</div>
-                </div>
-              </div>
-            </div>
+          <div className="text-center py-8">
+            <p className="text-slate-600 mb-6">Real testimonials from locum healthcare professionals coming soon.</p>
+            <Button asChild variant="outline">
+              <Link href="/auth">Sign Up to Leave a Review</Link>
+            </Button>
           </div>
         </div>
       </div>
