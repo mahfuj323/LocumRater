@@ -14,7 +14,7 @@ export default function Footer() {
               <img 
                 src={logo} 
                 alt="Rate My Locum Logo" 
-                className="h-12"
+                className="h-20"
               />
             </div>
             <p className="text-slate-400 mb-4">
@@ -115,7 +115,7 @@ export default function Footer() {
             <img 
               src={logo} 
               alt="Rate My Locum Logo" 
-              className="h-6 mr-2"
+              className="h-10 mr-2"
             />
             <p className="text-slate-400 text-sm">&copy; {new Date().getFullYear()} All rights reserved.</p>
           </div>
