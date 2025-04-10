@@ -1,6 +1,7 @@
 import { Link } from "wouter";
-import { PlusCircle, Twitter, Facebook, Instagram, Mail, Phone, MapPin } from "lucide-react";
+import { Twitter, Facebook, Instagram, Mail, Phone, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import logo from "../../assets/logo.png";
 
 export default function Footer() {
 
@@ -9,9 +10,12 @@ export default function Footer() {
       <div className="container mx-auto px-4">
         <div className="grid md:grid-cols-4 gap-8">
           <div>
-            <div className="flex items-center space-x-2 mb-4">
-              <PlusCircle className="h-8 w-8 text-white" />
-              <span className="text-xl font-bold text-white">Rate My Locum</span>
+            <div className="mb-4">
+              <img 
+                src={logo} 
+                alt="Rate My Locum Logo" 
+                className="h-12"
+              />
             </div>
             <p className="text-slate-400 mb-4">
               Because your time matters. No more walking into stressful environments or unclear expectations. Get honest insights before you commit.
@@ -107,7 +111,14 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-slate-700 mt-10 pt-6 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-slate-400 text-sm">&copy; {new Date().getFullYear()} Rate My Locum. All rights reserved.</p>
+          <div className="flex items-center">
+            <img 
+              src={logo} 
+              alt="Rate My Locum Logo" 
+              className="h-6 mr-2"
+            />
+            <p className="text-slate-400 text-sm">&copy; {new Date().getFullYear()} All rights reserved.</p>
+          </div>
           <div className="mt-4 md:mt-0 text-sm text-slate-400">
             <Link href="#" className="hover:text-white">Terms</Link>
             <span className="mx-2">·</span>
