@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { StarRating } from "@/components/ui/star-rating";
 import { Loader2 } from "lucide-react";
+import logo from "../assets/logo.png";
 
 export default function HomePage() {
   // Temporarily disable auth check to get the app running
@@ -31,9 +32,16 @@ export default function HomePage() {
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row items-center justify-between">
             <div className="md:w-1/2 mb-8 md:mb-0">
-              <h1 className="text-4xl md:text-5xl font-bold text-slate-800 mb-6 leading-tight">
-                Rate My <span className="text-primary">Locum</span>
-              </h1>
+              <div className="flex items-center gap-4 mb-6">
+                <img 
+                  src={logo} 
+                  alt="Rate My Locum Logo" 
+                  className="h-16 md:h-20"
+                />
+                <h1 className="text-4xl md:text-5xl font-bold text-slate-800 leading-tight">
+                  Rate My <span className="text-primary">Locum</span>
+                </h1>
+              </div>
               <div className="flex flex-col space-y-4 mb-8">
                 <div className="flex items-start">
                   <span className="text-primary font-bold text-xl mr-2">1.</span>
@@ -67,10 +75,12 @@ export default function HomePage() {
               </div>
             </div>
             <div className="md:w-1/2">
-              <div className="rounded-lg shadow-lg overflow-hidden bg-blue-100 aspect-video flex items-center justify-center">
-                <svg className="h-24 w-24 text-primary/30" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                </svg>
+              <div className="rounded-lg shadow-lg overflow-hidden bg-gradient-to-br from-white to-blue-50 aspect-video flex items-center justify-center">
+                <img 
+                  src={logo} 
+                  alt="Rate My Locum Logo" 
+                  className="h-40 md:h-52 transform hover:scale-105 transition-transform"
+                />
               </div>
             </div>
           </div>
