@@ -1,8 +1,9 @@
 import { useState, FormEvent } from "react";
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
-import { PlusCircle, Menu, X, Search } from "lucide-react";
+import { Menu, X, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import logo from "../../assets/logo.png";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -25,9 +26,12 @@ export default function Navbar() {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between py-4">
           <div className="flex items-center space-x-4">
-            <Link href="/" className="flex items-center space-x-2">
-              <PlusCircle className="h-8 w-8 text-primary" />
-              <span className="text-xl font-bold text-primary">Rate My Locum</span>
+            <Link href="/" className="flex items-center">
+              <img 
+                src={logo} 
+                alt="Rate My Locum Logo" 
+                className="h-10"
+              />
             </Link>
           </div>
 
