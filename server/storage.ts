@@ -39,7 +39,7 @@ export interface IStorage {
   createContact(contact: InsertContact): Promise<Contact>;
   
   // Session store
-  sessionStore: session.SessionStore;
+  sessionStore: session.Store;
 }
 
 export class MemStorage implements IStorage {
@@ -57,7 +57,7 @@ export class MemStorage implements IStorage {
   private agencyReviewId: number;
   private contactId: number;
   
-  sessionStore: session.SessionStore;
+  sessionStore: session.Store;
   
   constructor() {
     this.users = new Map();
@@ -321,4 +321,8 @@ export class MemStorage implements IStorage {
 }
 
 // Create and export storage instance
-export const storage = new MemStorage();
+// Import the DatabaseStorage
+import { DatabaseStorage } from "./db-storage";
+
+// Use DatabaseStorage instead of MemStorage
+export const storage = new DatabaseStorage();
