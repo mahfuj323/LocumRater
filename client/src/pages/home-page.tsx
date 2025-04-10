@@ -31,12 +31,32 @@ export default function HomePage() {
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row items-center justify-between">
             <div className="md:w-1/2 mb-8 md:mb-0">
-              <h1 className="text-4xl md:text-5xl font-bold text-slate-800 mb-4 leading-tight">
-                Find & Review <span className="text-primary">Locum Workplaces</span>
+              <h1 className="text-4xl md:text-5xl font-bold text-slate-800 mb-6 leading-tight">
+                Rate My <span className="text-primary">Locum</span>
               </h1>
-              <p className="text-lg text-slate-600 mb-8">
-                Share your experiences and help fellow healthcare professionals find the best locum opportunities. Rate workplaces and agencies based on real experiences.
-              </p>
+              <div className="flex flex-col space-y-4 mb-8">
+                <div className="flex items-start">
+                  <span className="text-primary font-bold text-xl mr-2">1.</span>
+                  <div>
+                    <h3 className="text-xl font-semibold">Add a Workplace</h3>
+                    <p className="text-slate-600">Submit the name and location of the pharmacy, clinic, or optician you worked at—even if it's not already in the system.</p>
+                  </div>
+                </div>
+                <div className="flex items-start">
+                  <span className="text-primary font-bold text-xl mr-2">2.</span>
+                  <div>
+                    <h3 className="text-xl font-semibold">Leave a Review</h3>
+                    <p className="text-slate-600">Use our structured template to rate pay, transport links, facilities, payment times, and more.</p>
+                  </div>
+                </div>
+                <div className="flex items-start">
+                  <span className="text-primary font-bold text-xl mr-2">3.</span>
+                  <div>
+                    <h3 className="text-xl font-semibold">Help the Community</h3>
+                    <p className="text-slate-600">Your insights help other locums make informed choices—and avoid nightmare shifts.</p>
+                  </div>
+                </div>
+              </div>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button asChild size="lg">
                   <Link href="/rate">Submit a Review</Link>
@@ -65,34 +85,34 @@ export default function HomePage() {
         </div>
         
         <div className="grid md:grid-cols-3 gap-8">
-          <div className="bg-white p-6 rounded-lg shadow-sm border border-slate-100 text-center">
-            <div className="bg-blue-50 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-primary" viewBox="0 0 20 20" fill="currentColor">
-                <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z" />
-              </svg>
+          <div className="bg-white p-6 rounded-lg shadow-sm border border-slate-100">
+            <div className="flex items-center mb-4">
+              <div className="bg-primary text-white rounded-full w-10 h-10 flex items-center justify-center mr-4 flex-shrink-0">
+                <span className="font-bold">1</span>
+              </div>
+              <h3 className="text-xl font-semibold">Create an Account</h3>
             </div>
-            <h3 className="text-xl font-semibold mb-2">Create an Account</h3>
-            <p className="text-slate-600">Sign up to unlock all features and join our community of healthcare professionals.</p>
+            <p className="text-slate-600 ml-14">Sign up to unlock all features and join our community of healthcare professionals.</p>
           </div>
           
-          <div className="bg-white p-6 rounded-lg shadow-sm border border-slate-100 text-center">
-            <div className="bg-blue-50 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-primary" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
-              </svg>
+          <div className="bg-white p-6 rounded-lg shadow-sm border border-slate-100">
+            <div className="flex items-center mb-4">
+              <div className="bg-primary text-white rounded-full w-10 h-10 flex items-center justify-center mr-4 flex-shrink-0">
+                <span className="font-bold">2</span>
+              </div>
+              <h3 className="text-xl font-semibold">Search Workplaces</h3>
             </div>
-            <h3 className="text-xl font-semibold mb-2">Search Workplaces</h3>
-            <p className="text-slate-600">Find workplaces or agencies by location, role, or rating to discover new opportunities.</p>
+            <p className="text-slate-600 ml-14">Find workplaces or agencies by location, role, or rating to discover new opportunities.</p>
           </div>
           
-          <div className="bg-white p-6 rounded-lg shadow-sm border border-slate-100 text-center">
-            <div className="bg-blue-50 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-primary" viewBox="0 0 20 20" fill="currentColor">
-                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-              </svg>
+          <div className="bg-white p-6 rounded-lg shadow-sm border border-slate-100">
+            <div className="flex items-center mb-4">
+              <div className="bg-primary text-white rounded-full w-10 h-10 flex items-center justify-center mr-4 flex-shrink-0">
+                <span className="font-bold">3</span>
+              </div>
+              <h3 className="text-xl font-semibold">Rate & Review</h3>
             </div>
-            <h3 className="text-xl font-semibold mb-2">Rate & Review</h3>
-            <p className="text-slate-600">Share your experiences to help others find the right fit and improve workplace conditions.</p>
+            <p className="text-slate-600 ml-14">Share your experiences to help others find the right fit and improve workplace conditions.</p>
           </div>
         </div>
       </div>
