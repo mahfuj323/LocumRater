@@ -8,6 +8,7 @@ import ContactPage from "@/pages/contact-page";
 import SearchPage from "@/pages/search-page";
 import WorkplaceDetail from "@/pages/workplace-detail";
 import AgencyDetail from "@/pages/agency-detail";
+import FAQPage from "@/pages/faq-page";
 import { ProtectedRoute } from "./lib/protected-route";
 import Navbar from "./components/layout/navbar";
 import Footer from "./components/layout/footer";
