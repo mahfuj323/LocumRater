@@ -28,28 +28,40 @@ import { useToast } from "@/hooks/use-toast";
 // FAQ data
 const faqs = [
   {
-    question: "What is Rate my Locum?",
-    answer: "Rate My Locum is like TripAdvisor for locums — a platform where pharmacists, dispensers, and other healthcare locums can review and rate workplaces and agencies, so others know what to expect before booking a shift."
+    question: "What is Rate My Locum?",
+    answer: "Rate My Locum is the UK's first platform where locum healthcare professionals (pharmacists, dispensers, optometrists, and others) can rate and review workplaces and agencies they've worked with. Think of it as TripAdvisor or Glassdoor specifically for healthcare locums — giving you insider information before you accept a shift."
   },
   {
     question: "What is a Locum?",
-    answer: "A locum is a professional (like a pharmacist, doctor, optometrist, or dispenser) who temporarily fills in for someone else at a clinic, pharmacy, or healthcare facility."
+    answer: "A locum (short for 'locum tenens', Latin for 'place holder') is a healthcare professional who temporarily fills in for someone else or covers staffing gaps at clinics, pharmacies, hospitals, or other healthcare facilities. Locums include pharmacists, dispensers, optometrists, dentists, doctors, and other healthcare professionals who work on a temporary or freelance basis."
+  },
+  {
+    question: "Why should I use Rate My Locum?",
+    answer: "As a locum, you often have to make quick decisions about where to work, often with limited information. Rate My Locum provides real feedback from other locums about workplaces and agencies, including details about pay rates, transport accessibility, facilities, and general working conditions. This helps you make informed decisions and avoid unpleasant surprises."
   },
   {
     question: "How do I create an account?",
-    answer: "Click the 'Sign Up' button in the top right corner of any page. Fill out the registration form with your email address, create a password, and you're all set!"
+    answer: "Click the 'Sign Up' button in the top right corner of any page. Fill out the registration form with your details, create a password, and you're all set! Registration is free and only takes a minute."
   },
   {
     question: "Is my information kept private?",
-    answer: "Yes, your personal information is kept confidential. Only your submitted reviews and ratings will be visible to other users, and you can choose to post anonymously."
+    answer: "Yes, your personal information is kept confidential. Only your submitted reviews and ratings will be visible to other users, and you can choose to post anonymously. We never share your contact details with workplaces or agencies."
   },
   {
     question: "How do I submit a review?",
-    answer: "Simply navigate to the 'Submit a Review' page, search for the workplace or agency you want to review, and fill out the review form with your ratings and comments."
+    answer: "After logging in, navigate to the 'Rate' page, search for the workplace or agency you want to review, and fill out the review form with your ratings and comments. Reviews include sections for transport accessibility, payment times, facilities, and more."
   },
   {
     question: "Can employers see who reviewed their workplace?",
-    answer: "No, all reviews are kept anonymous from employers to protect locums' identities and ensure honest feedback without fear of repercussions."
+    answer: "No, all reviews are kept anonymous from employers to protect locums' identities and ensure honest feedback without fear of repercussions. We believe this anonymity is essential for maintaining the integrity and honesty of reviews."
+  },
+  {
+    question: "What information is included in workplace reviews?",
+    answer: "Workplace reviews include ratings and comments on various aspects, including: nearby transport options, pay rates, payment timeliness, special facilities (like parking or break rooms), what locum position was filled, and general comments about the experience."
+  },
+  {
+    question: "How can I search for specific workplace reviews?",
+    answer: "Use the search function on our homepage or the dedicated search page. You can search by location, workplace name, or even filter by review ratings to find exactly what you're looking for."
   }
 ];
 
@@ -81,7 +93,7 @@ export default function FAQPage() {
   // Mutation for submitting a question
   const questionMutation = useMutation({
     mutationFn: async (data: QuestionFormValues) => {
-      const res = await apiRequest("POST", "/api/questions", data);
+      const res = await apiRequest("POST", "/api/faq/questions", data);
       return res.json();
     },
     onSuccess: () => {
@@ -108,22 +120,24 @@ export default function FAQPage() {
 
   return (
     <div className="container mx-auto px-4 py-12">
-      <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold text-slate-800 mb-3">Frequently Asked Questions</h1>
-        <p className="text-slate-600 max-w-2xl mx-auto">
+      <div className="text-center mb-16">
+        <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
+          Frequently Asked Questions
+        </h1>
+        <p className="text-slate-600 max-w-2xl mx-auto text-lg">
           Find answers to common questions about Rate My Locum, or submit your own question below.
         </p>
       </div>
 
       {/* FAQ Accordion */}
-      <div className="max-w-3xl mx-auto mb-16">
+      <div className="max-w-3xl mx-auto mb-20">
         <Accordion type="single" collapsible value={expanded} onValueChange={setExpanded} className="w-full">
           {faqs.map((faq, index) => (
             <AccordionItem key={index} value={`item-${index}`} className="border-b border-slate-200">
-              <AccordionTrigger className="text-left font-medium text-lg py-4">
+              <AccordionTrigger className="text-left font-medium text-lg py-5 hover:text-primary transition-colors">
                 {faq.question}
               </AccordionTrigger>
-              <AccordionContent className="text-slate-600 pb-4">
+              <AccordionContent className="text-slate-600 pb-5 text-base leading-relaxed">
                 {faq.answer}
               </AccordionContent>
             </AccordionItem>
@@ -132,8 +146,12 @@ export default function FAQPage() {
       </div>
 
       {/* Question submission form */}
-      <div className="max-w-2xl mx-auto bg-white rounded-lg shadow-sm border border-slate-100 p-6 md:p-8">
-        <h2 className="text-2xl font-bold text-slate-800 mb-6">Ask a Question</h2>
+      <div className="max-w-2xl mx-auto bg-white rounded-lg shadow-md border border-slate-200 p-6 md:p-8 relative overflow-hidden">
+        {/* Decorative accent */}
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-primary/70"></div>
+        
+        <h2 className="text-2xl font-bold text-slate-800 mb-2">Ask a Question</h2>
+        <p className="text-slate-500 mb-6">Can't find what you're looking for? Submit your question below.</p>
         
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -145,7 +163,7 @@ export default function FAQPage() {
                   <FormItem>
                     <FormLabel>Your Name</FormLabel>
                     <FormControl>
-                      <Input placeholder="John Smith" {...field} />
+                      <Input placeholder="John Smith" {...field} className="border-slate-300 focus:border-primary" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -159,7 +177,7 @@ export default function FAQPage() {
                   <FormItem>
                     <FormLabel>Email Address</FormLabel>
                     <FormControl>
-                      <Input placeholder="you@example.com" {...field} />
+                      <Input placeholder="you@example.com" {...field} className="border-slate-300 focus:border-primary" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -176,7 +194,7 @@ export default function FAQPage() {
                   <FormControl>
                     <Textarea 
                       placeholder="Type your question here..." 
-                      className="min-h-32" 
+                      className="min-h-32 border-slate-300 focus:border-primary" 
                       {...field} 
                     />
                   </FormControl>
@@ -189,16 +207,17 @@ export default function FAQPage() {
               control={form.control}
               name="anonymous"
               render={({ field }) => (
-                <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                <FormItem className="flex flex-row items-start space-x-3 space-y-0 bg-slate-50 p-3 rounded-md">
                   <FormControl>
                     <Checkbox
                       checked={field.value}
                       onCheckedChange={field.onChange}
+                      className="mt-1"
                     />
                   </FormControl>
                   <div className="space-y-1 leading-none">
-                    <FormLabel>Submit Anonymously</FormLabel>
-                    <FormDescription>
+                    <FormLabel className="text-slate-700">Submit Anonymously</FormLabel>
+                    <FormDescription className="text-slate-500">
                       Your name will not be displayed with your question if answered on the site.
                     </FormDescription>
                   </div>
@@ -208,7 +227,7 @@ export default function FAQPage() {
             
             <Button 
               type="submit" 
-              className="w-full"
+              className="w-full bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 transition-all"
               disabled={questionMutation.isPending}
             >
               {questionMutation.isPending ? "Submitting..." : "Submit Question"}
