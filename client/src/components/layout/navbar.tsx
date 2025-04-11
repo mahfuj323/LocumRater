@@ -47,6 +47,11 @@ export default function Navbar() {
                 Rate
               </span>
             </Link>
+            <Link href="/faq">
+              <span className={`font-medium hover:text-primary transition ${location === '/faq' ? 'text-primary' : 'text-slate-700'}`}>
+                FAQs
+              </span>
+            </Link>
             <Link href="/contact">
               <span className={`font-medium hover:text-primary transition ${location === '/contact' ? 'text-primary' : 'text-slate-700'}`}>
                 Contact Us
@@ -132,6 +137,11 @@ export default function Navbar() {
             <Link href="/rate" onClick={closeMenu}>
               <span className={`block py-2 font-medium hover:text-primary transition ${location === '/rate' ? 'text-primary' : 'text-slate-700'}`}>
                 Rate
+              </span>
+            </Link>
+            <Link href="/faq" onClick={closeMenu}>
+              <span className={`block py-2 font-medium hover:text-primary transition ${location === '/faq' ? 'text-primary' : 'text-slate-700'}`}>
+                FAQs
               </span>
             </Link>
             <Link href="/contact" onClick={closeMenu}>

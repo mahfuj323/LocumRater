@@ -4,7 +4,8 @@ import {
   Agency, InsertAgency,
   WorkplaceReview, InsertWorkplaceReview, 
   AgencyReview, InsertAgencyReview,
-  Contact, InsertContact
+  Contact, InsertContact,
+  FaqQuestion, InsertFaqQuestion
 } from "@shared/schema";
 import session from "express-session";
 import createMemoryStore from "memorystore";
@@ -37,6 +38,9 @@ export interface IStorage {
   
   // Contact operations
   createContact(contact: InsertContact): Promise<Contact>;
+  
+  // FAQ Questions operations
+  createFaqQuestion(question: InsertFaqQuestion): Promise<FaqQuestion>;
   
   // Session store
   sessionStore: session.Store;

@@ -127,6 +127,25 @@ export const insertContactSchema = createInsertSchema(contacts).pick({
   message: true,
 });
 
+// FAQ Questions schema
+export const faqQuestions = pgTable("faq_questions", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  email: text("email").notNull(),
+  question: text("question").notNull(),
+  anonymous: boolean("anonymous").default(false).notNull(),
+  answered: boolean("answered").default(false).notNull(),
+  answer: text("answer"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertFaqQuestionSchema = createInsertSchema(faqQuestions).pick({
+  name: true,
+  email: true,
+  question: true,
+  anonymous: true,
+});
+
 // Relations
 export const usersRelations = relations(users, ({ many }) => ({
   workplaceReviews: many(workplaceReviews),
@@ -193,3 +212,6 @@ export type InsertAgencyReview = z.infer<typeof insertAgencyReviewSchema>;
 
 export type Contact = typeof contacts.$inferSelect;
 export type InsertContact = z.infer<typeof insertContactSchema>;
+
+export type FaqQuestion = typeof faqQuestions.$inferSelect;
+export type InsertFaqQuestion = z.infer<typeof insertFaqQuestionSchema>;

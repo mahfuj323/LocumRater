@@ -23,6 +23,7 @@ function Router() {
       <Route path="/agency/:id" component={AgencyDetail} />
       <ProtectedRoute path="/rate" component={RatePage} />
       <Route path="/contact" component={ContactPage} />
+      <Route path="/faq" component={FAQPage} />
       <Route component={NotFound} />
     </Switch>
   );
