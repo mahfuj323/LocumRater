@@ -9,6 +9,7 @@ import {
   workplaceReviews, 
   agencyReviews, 
   contacts,
+  faqQuestions,
   type User, 
   type InsertUser,
   type Workplace,
@@ -20,7 +21,9 @@ import {
   type AgencyReview,
   type InsertAgencyReview,
   type Contact,
-  type InsertContact
+  type InsertContact,
+  type FaqQuestion,
+  type InsertFaqQuestion
 } from "@shared/schema";
 import { pool } from "./db";
 import { IStorage } from "./storage";
@@ -162,5 +165,11 @@ export class DatabaseStorage implements IStorage {
   async createContact(contactData: InsertContact): Promise<Contact> {
     const [contact] = await db.insert(contacts).values(contactData).returning();
     return contact;
+  }
+
+  // FAQ Questions operations
+  async createFaqQuestion(questionData: InsertFaqQuestion): Promise<FaqQuestion> {
+    const [question] = await db.insert(faqQuestions).values(questionData).returning();
+    return question;
   }
 }

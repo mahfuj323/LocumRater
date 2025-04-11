@@ -53,6 +53,7 @@ export class MemStorage implements IStorage {
   private workplaceReviews: Map<number, WorkplaceReview>;
   private agencyReviews: Map<number, AgencyReview>;
   private contacts: Map<number, Contact>;
+  private faqQuestions: Map<number, FaqQuestion>;
   
   private userId: number;
   private workplaceId: number;
@@ -60,6 +61,7 @@ export class MemStorage implements IStorage {
   private workplaceReviewId: number;
   private agencyReviewId: number;
   private contactId: number;
+  private faqQuestionId: number;
   
   sessionStore: session.Store;
   
@@ -70,6 +72,7 @@ export class MemStorage implements IStorage {
     this.workplaceReviews = new Map();
     this.agencyReviews = new Map();
     this.contacts = new Map();
+    this.faqQuestions = new Map();
     
     this.userId = 1;
     this.workplaceId = 1;
@@ -77,6 +80,7 @@ export class MemStorage implements IStorage {
     this.workplaceReviewId = 1;
     this.agencyReviewId = 1;
     this.contactId = 1;
+    this.faqQuestionId = 1;
     
     this.sessionStore = new MemoryStore({
       checkPeriod: 86400000 // 24 hours
@@ -248,6 +252,21 @@ export class MemStorage implements IStorage {
     const contact: Contact = { ...contactData, id, createdAt };
     this.contacts.set(id, contact);
     return contact;
+  }
+  
+  // FAQ Questions methods
+  async createFaqQuestion(questionData: InsertFaqQuestion): Promise<FaqQuestion> {
+    const id = this.faqQuestionId++;
+    const createdAt = new Date();
+    const question: FaqQuestion = { 
+      ...questionData, 
+      id, 
+      createdAt,
+      answered: false,
+      answer: null
+    };
+    this.faqQuestions.set(id, question);
+    return question;
   }
   
   // Seed initial data

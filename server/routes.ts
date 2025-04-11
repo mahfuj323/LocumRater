@@ -3,7 +3,7 @@ import { createServer, type Server } from "http";
 import { setupAuth } from "./auth";
 import { storage } from "./storage";
 import { insertContactSchema, insertWorkplaceSchema, insertAgencySchema, 
-         insertWorkplaceReviewSchema, insertAgencyReviewSchema } from "@shared/schema";
+         insertWorkplaceReviewSchema, insertAgencyReviewSchema, insertFaqQuestionSchema } from "@shared/schema";
 import { ZodError } from "zod";
 import { fromZodError } from "zod-validation-error";
 
@@ -195,6 +195,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
     }
   );
+
+  // FAQ Question submission
+  app.post("/api/faq/questions", validateBody(insertFaqQuestionSchema), async (req, res) => {
+    try {
+      const question = await storage.createFaqQuestion({
+        ...req.body,
+        anonymous: !!req.body.anonymous // Ensure boolean
+      });
+      res.status(201).json({ message: "Question submitted successfully", id: question.id });
+    } catch (error) {
+      res.status(500).json({ message: "Failed to submit question" });
+    }
+  });
 
   const httpServer = createServer(app);
   return httpServer;
