@@ -346,9 +346,8 @@ export default function AuthPage() {
           </ul>
           <div className="mt-8 p-4 bg-white/10 rounded-lg">
             <p className="italic">
-              "Rate My Locum helped me find workplaces that match my needs and values. The detailed reviews have been invaluable for my career."
+              "Join our growing community of healthcare professionals and help build a more transparent locum work environment."
             </p>
-            <p className="mt-2 font-medium">— Sarah J., Locum Pharmacist</p>
           </div>
         </div>
       </div>

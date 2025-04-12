@@ -53,7 +53,7 @@ const faqs = [
   },
   {
     question: "Can employers see who reviewed their workplace?",
-    answer: "No, all reviews are kept anonymous from employers to protect locums' identities and ensure honest feedback without fear of repercussions. We believe this anonymity is essential for maintaining the integrity and honesty of reviews."
+    answer: "When submitting a review, you have the option to remain anonymous if you prefer. If selected, your identity will be hidden from employers to protect your privacy while still allowing you to provide honest feedback without fear of repercussions."
   },
   {
     question: "What information is included in workplace reviews?",
