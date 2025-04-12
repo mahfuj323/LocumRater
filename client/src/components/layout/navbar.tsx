@@ -25,8 +25,9 @@ export default function Navbar() {
     <header className="bg-white shadow-sm sticky top-0 z-50">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between py-6">
-          <div className="flex items-center space-x-4">
-            <Link href="/" className="flex items-center mr-10">
+          {/* Logo */}
+          <div className="flex items-center">
+            <Link href="/" className="flex items-center">
               <img 
                 src={logo} 
                 alt="Rate My Locum Logo" 
@@ -35,8 +36,8 @@ export default function Navbar() {
             </Link>
           </div>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex space-x-6">
+          {/* Desktop Navigation - increased spacing */}
+          <nav className="hidden md:flex items-center space-x-8 lg:space-x-12 xl:space-x-16 ml-6 lg:ml-12">
             <Link href="/">
               <span className={`font-medium hover:text-primary transition ${location === '/' ? 'text-primary' : 'text-slate-700'}`}>
                 Home
@@ -59,34 +60,38 @@ export default function Navbar() {
             </Link>
           </nav>
 
-          {/* Search Bar */}
-          <div className="hidden md:flex mx-4 flex-1 max-w-xs">
-            <form onSubmit={handleSearch} className="relative w-full">
-              <Input
-                type="text"
-                placeholder="Search workplaces..."
-                className="pr-10"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-              <Button 
-                type="submit" 
-                variant="ghost" 
-                size="icon" 
-                className="absolute right-0 top-0 h-full"
-              >
-                <Search className="h-4 w-4" />
-              </Button>
-            </form>
-          </div>
+          {/* Right side - Search and Auth buttons */}
+          <div className="hidden md:flex items-center justify-end space-x-4 lg:space-x-6 flex-grow pl-4 lg:pl-8">
+            {/* Search Bar */}
+            <div className="flex-grow max-w-xs lg:max-w-sm">
+              <form onSubmit={handleSearch} className="relative w-full">
+                <Input
+                  type="text"
+                  placeholder="Search workplaces..."
+                  className="pr-10"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+                <Button 
+                  type="submit" 
+                  variant="ghost" 
+                  size="icon" 
+                  className="absolute right-0 top-0 h-full"
+                >
+                  <Search className="h-4 w-4" />
+                </Button>
+              </form>
+            </div>
 
-          <div className="hidden md:flex items-center space-x-4">
-            <Button variant="ghost" asChild>
-              <Link href="/auth">Login</Link>
-            </Button>
-            <Button asChild>
-              <Link href="/auth">Sign Up</Link>
-            </Button>
+            {/* Auth Buttons */}
+            <div className="flex items-center space-x-3 lg:space-x-4">
+              <Button variant="ghost" asChild>
+                <Link href="/auth">Login</Link>
+              </Button>
+              <Button asChild>
+                <Link href="/auth">Sign Up</Link>
+              </Button>
+            </div>
           </div>
 
           {/* Mobile menu button */}
