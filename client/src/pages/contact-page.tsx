@@ -154,34 +154,14 @@ export default function ContactPage() {
             </Form>
           </div>
           
-          <div className="mt-12 grid md:grid-cols-3 gap-6 text-center">
-            <Card>
+          <div className="mt-12 grid place-items-center gap-6 text-center">
+            <Card className="max-w-md w-full">
               <CardContent className="p-6">
                 <div className="inline-flex items-center justify-center h-12 w-12 rounded-full bg-blue-50 text-primary mb-4">
                   <Mail className="h-6 w-6" />
                 </div>
                 <h3 className="font-semibold mb-2">Email</h3>
                 <p className="text-slate-600">support@ratemylocum.co.uk</p>
-              </CardContent>
-            </Card>
-            
-            <Card>
-              <CardContent className="p-6">
-                <div className="inline-flex items-center justify-center h-12 w-12 rounded-full bg-blue-50 text-primary mb-4">
-                  <Phone className="h-6 w-6" />
-                </div>
-                <h3 className="font-semibold mb-2">Phone</h3>
-                <p className="text-slate-600">+44 (0)123 456 7890</p>
-              </CardContent>
-            </Card>
-            
-            <Card>
-              <CardContent className="p-6">
-                <div className="inline-flex items-center justify-center h-12 w-12 rounded-full bg-blue-50 text-primary mb-4">
-                  <MapPin className="h-6 w-6" />
-                </div>
-                <h3 className="font-semibold mb-2">Office</h3>
-                <p className="text-slate-600">Manchester, United Kingdom</p>
               </CardContent>
             </Card>
           </div>
