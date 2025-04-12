@@ -23,30 +23,13 @@ import {
   SelectTrigger,
   SelectValue 
 } from "@/components/ui/select";
-
-// Temporary schemas until we restore authentication
-const loginSchema = z.object({
-  username: z.string().min(3, "Username must be at least 3 characters"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
-});
-
-const registerSchema = z.object({
-  username: z.string().min(3, "Username must be at least 3 characters"),
-  fullName: z.string().min(3, "Full name must be at least 3 characters"),
-  email: z.string().email("Please enter a valid email"),
-  profession: z.string().min(1, "Please select a profession"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
-  confirmPassword: z.string(),
-}).refine((data) => data.password === data.confirmPassword, {
-  message: "Passwords do not match",
-  path: ["confirmPassword"],
-});
+import { useAuth, loginSchema, registerSchema } from "@/hooks/use-auth";
 
 export default function AuthPage() {
   const [activeTab, setActiveTab] = useState<"login" | "register">("login");
   const [location, navigate] = useLocation();
   
-  // Temporarily disable auth check to get the app running
+  // Temporarily use mock auth until we resolve the AuthProvider issue
   const user = null;
   const loginMutation = {
     isPending: false,

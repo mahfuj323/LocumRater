@@ -1,5 +1,6 @@
 import { Loader2 } from "lucide-react";
-import { Redirect, Route, useLocation } from "wouter";
+import { Redirect, Route } from "wouter";
+import { useAuth } from "@/hooks/use-auth";
 
 export function ProtectedRoute({
   path,
@@ -8,10 +9,7 @@ export function ProtectedRoute({
   path: string;
   component: () => React.JSX.Element;
 }) {
-  // Temporarily disable authentication check
-  const user = null;
-  const isLoading = false;
-  const [_, setLocation] = useLocation();
+  const { user, isLoading } = useAuth();
 
   if (isLoading) {
     return (
