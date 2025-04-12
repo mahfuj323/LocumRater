@@ -161,7 +161,7 @@ export default function ContactPage() {
                   <Mail className="h-6 w-6" />
                 </div>
                 <h3 className="font-semibold mb-2">Email</h3>
-                <p className="text-slate-600">support@ratemylocum.co.uk</p>
+                <p className="text-slate-600">info@ratemylocum.com</p>
               </CardContent>
             </Card>
           </div>
