@@ -1,6 +1,5 @@
 import { Loader2 } from "lucide-react";
-import { Redirect, Route } from "wouter";
-import { useAuth } from "@/hooks/use-auth";
+import { Redirect, Route, useLocation } from "wouter";
 
 export function ProtectedRoute({
   path,
@@ -9,7 +8,9 @@ export function ProtectedRoute({
   path: string;
   component: () => React.JSX.Element;
 }) {
-  const { user, isLoading } = useAuth();
+  // Temporarily use mock auth until we fix the auth system
+  const user = null;
+  const isLoading = false;
 
   if (isLoading) {
     return (

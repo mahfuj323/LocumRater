@@ -23,7 +23,22 @@ import {
   SelectTrigger,
   SelectValue 
 } from "@/components/ui/select";
-import { useAuth, loginSchema, registerSchema } from "@/hooks/use-auth";
+import { insertUserSchema } from "@shared/schema";
+
+// Login schema
+const loginSchema = z.object({
+  username: z.string().min(3, "Username must be at least 3 characters"),
+  password: z.string().min(6, "Password must be at least 6 characters"),
+});
+
+// Registration schema
+const registerSchema = insertUserSchema.extend({
+  password: z.string().min(6, "Password must be at least 6 characters"),
+  confirmPassword: z.string(),
+}).refine(data => data.password === data.confirmPassword, {
+  message: "Passwords do not match",
+  path: ["confirmPassword"],
+});
 
 export default function AuthPage() {
   const [activeTab, setActiveTab] = useState<"login" | "register">("login");
