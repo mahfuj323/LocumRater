@@ -1,7 +1,9 @@
 #!/bin/bash
 # Install all dependencies
 npm ci
-# Install vite and esbuild globally
-npm install -g vite esbuild
-# Run the build
-npm run build
+
+# Build client with Vite
+npx vite build --emptyOutDir
+
+# Build server with esbuild
+npx esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist
