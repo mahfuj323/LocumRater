@@ -84,6 +84,12 @@ Before final launch, verify:
 
 ### Common Issues and Solutions
 
+#### Error: ENOENT: no such file or directory, stat '/opt/render/project/src/dist/index.html'
+If you get this error, it indicates that the static files aren't being found in the expected location. The updated build script:
+1. Adds additional debugging information to locate where files are being created
+2. Tries multiple paths to find and serve the index.html file
+3. Creates a fallback index.html file if the Vite build process fails
+
 #### Error: Cannot find package 'vite'
 If you see this error in the build logs or during runtime:
 ```

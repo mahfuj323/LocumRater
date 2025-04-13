@@ -5,8 +5,19 @@ npm ci
 # Install vite locally to ensure it's available during build
 npm install vite --no-save
 
+# Show directory structure before build
+echo "Current directory: $(pwd)"
+echo "Directory contents before build:"
+ls -la
+
 # Build client with Vite - this builds to dist directory
 npx vite build --emptyOutDir
+
+# Show directory structure after build
+echo "Directory contents after Vite build:"
+ls -la
+echo "Dist directory contents:"
+ls -la dist || echo "dist directory not found"
 
 # Create a completely standalone server for production that doesn't import any Vite code
 cat > server-prod.ts << EOF
@@ -211,12 +222,40 @@ app.use((err, _req, res, _next) => {
   res.status(status).json({ message });
 });
 
-// Serve static files in production
-app.use(express.static('./dist'));
+// Check if we can find the static files
+console.log('Current directory:', process.cwd());
+console.log('Files in current directory:', fs.readdirSync('.'));
+console.log('Files in dist directory (if exists):', fs.existsSync('./dist') ? fs.readdirSync('./dist') : 'dist directory not found');
 
-// SPA support - serve index.html for all other routes
+// Serve static files in production - try different paths
+if (fs.existsSync('./dist')) {
+  console.log('Using ./dist for static files');
+  app.use(express.static('./dist'));
+} else if (fs.existsSync('/opt/render/project/src/dist')) {
+  console.log('Using /opt/render/project/src/dist for static files');
+  app.use(express.static('/opt/render/project/src/dist'));
+} else {
+  console.log('WARNING: Could not find dist directory');
+}
+
+// SPA support - serve index.html for all other routes with fallbacks
 app.get('*', (req, res) => {
-  res.sendFile(path.join(process.cwd(), 'dist', 'index.html'));
+  const paths = [
+    path.join(process.cwd(), 'dist', 'index.html'),
+    path.join('/opt/render/project/src/dist', 'index.html'),
+    path.join('/opt/render/project/src/client/dist', 'index.html')
+  ];
+  
+  // Try each path in sequence until we find one that exists
+  for (const filePath of paths) {
+    if (fs.existsSync(filePath)) {
+      console.log('Serving index.html from:', filePath);
+      return res.sendFile(filePath);
+    }
+  }
+  
+  // If no path works, send a helpful error
+  res.status(500).send('Unable to find index.html. Check server logs for details.');
 });
 
 // Start server
@@ -228,3 +267,55 @@ EOF
 
 # Build the production server
 npx esbuild server-prod.ts --platform=node --packages=external --bundle --format=esm --outfile=dist/index.js
+
+# Create a fallback index.html if Vite build somehow failed
+if [ ! -f "dist/index.html" ]; then
+  echo "WARNING: index.html not found, creating a fallback version"
+  cat > dist/index.html << HTML_EOF
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rate My Locum</title>
+    <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 2rem;
+        text-align: center;
+      }
+      h1 {
+        font-size: 2.5rem;
+        color: #0070f3;
+      }
+      p {
+        font-size: 1.25rem;
+        line-height: 1.5;
+      }
+      .logo {
+        font-size: 3rem;
+        margin-bottom: 2rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <div class="logo">🏥</div>
+      <h1>Rate My Locum</h1>
+      <p>
+        The site is currently in maintenance mode. Please check back shortly.
+      </p>
+      <p>
+        <a href="/api/workplaces">View API Status</a>
+      </p>
+    </div>
+  </body>
+</html>
+HTML_EOF
+fi
+
+# Final check of dist directory
+echo "Final dist directory contents:"
+ls -la dist || echo "dist directory still not found - this is a critical error"
