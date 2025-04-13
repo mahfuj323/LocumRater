@@ -85,11 +85,11 @@ Before final launch, verify:
 ### Common Issues and Solutions
 
 #### Error: Cannot find package 'vite'
-If you see this error in the build logs:
+If you see this error in the build logs or during runtime:
 ```
 Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'vite' imported from ...
 ```
-The build script has been updated to install Vite locally during the build process, which should resolve this issue.
+This issue has been addressed with a completely new production server implementation that doesn't depend on Vite at all. The updated `render-build.sh` creates a standalone server-prod.ts file with all necessary code for production without any Vite dependencies.
 
 #### Error: "nd ./render-start.sh" command not found
 If you see this error:
