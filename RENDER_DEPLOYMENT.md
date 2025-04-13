@@ -28,32 +28,64 @@ Add the following environment variables:
 
 | Variable | Description |
 |----------|-------------|
-| `SESSION_SECRET` | A random string for securing session cookies |
+| `SESSION_SECRET` | A random string for securing session cookies (e.g., generate with `openssl rand -hex 32`) |
+| `NODE_ENV` | Set to `production` |
 | `PORT` | `10000` (Render will use this internally) |
 
 ## 4. Database Setup
 
-1. Create a new PostgreSQL database from your Render dashboard
-2. In your Web Service settings, add the `DATABASE_URL` environment variable provided by Render for your database
-3. Alternatively, you can use a Neon Database and add its connection string as the `DATABASE_URL` environment variable
+1. Create a new PostgreSQL database from your Render dashboard:
+   - Click "New" and select "PostgreSQL"
+   - Name it `rate-my-locum-db` (or similar)
+   - Choose the region closest to your users
+   - Select appropriate plan (Starter is $7/month with 1GB storage)
+   - Click "Create Database"
+
+2. Link the database to your web service:
+   - In your Web Service settings, go to the "Environment" tab
+   - Add the `DATABASE_URL` environment variable provided by Render for your database
+   - Format: `postgres://username:password@host:port/database_name`
+
+3. Run database migrations after first deploy:
+   - SSH into your instance or use the Render Shell
+   - Run `node db-migrate.js` to apply the schema
 
 ## 5. Initial Deploy
 
 1. Click "Create Web Service"
-2. Wait for the build and deployment to complete
-3. Once deployed, your app will be available at `https://[service-name].onrender.com`
+2. Wait for the build and deployment to complete (this may take several minutes)
+3. Monitor the logs for any issues during the build process
+4. Once deployed, your app will be available at `https://[service-name].onrender.com`
 
 ## 6. Custom Domain Setup
 
 1. In your Web Service settings, go to the "Settings" tab
 2. Scroll to "Custom Domains"
 3. Add your domains (ratemylocum.com and ratemylocum.co.uk)
-4. Follow the instructions to verify domain ownership and configure DNS settings
+4. Follow the instructions to verify domain ownership:
+   - Add the provided DNS records through your domain registrar
+   - For CNAME records: Point to `[service-name].onrender.com`
+   - For TXT records: Add the verification value exactly as shown
+5. Wait for DNS propagation (can take up to 48 hours, but often much faster)
+6. Once verified, Render will automatically provision SSL certificates
+
+## 7. Production Checklist
+
+Before final launch, verify:
+
+- [ ] Authentication works properly
+- [ ] Database connections are stable
+- [ ] All API endpoints respond correctly
+- [ ] Proper error handling is in place
+- [ ] Session cookies and security settings are configured
+- [ ] SSL certificates are valid for your custom domains
 
 ## Troubleshooting
 
 If you encounter a build error related to Vite or ESM modules:
 
-1. Check the logs in the Render dashboard
-2. Ensure the render-build.sh file is executable (`chmod +x render-build.sh`)
-3. Try deploying again
+1. Check the logs in the Render dashboard for specific error messages
+2. Ensure the render-build.sh and render-start.sh files are executable (`chmod +x render-*.sh`)
+3. Verify that the build command in render-build.sh is using the correct paths
+4. If you see errors about the database connection, check your DATABASE_URL environment variable
+5. If required, use "Manual Deploy" in the Render dashboard to retry a failed deployment
