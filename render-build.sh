@@ -102,13 +102,18 @@ try {
   } else {
     console.log('Attempting to connect to database...');
     
-    // Database connection
+    // Database connection with improved error handling
+    const isNeonDB = process.env.DATABASE_URL.includes('neon.tech');
+    
     pool = new Pool({ 
       connectionString: process.env.DATABASE_URL,
       max: 5, // Maximum number of clients in the pool
       idleTimeoutMillis: 30000, // How long a client is allowed to remain idle
       connectionTimeoutMillis: 10000, // Maximum time to wait for a connection
+      ssl: { rejectUnauthorized: false }, // Accept self-signed certs
     });
+    
+    console.log('Database type:', isNeonDB ? 'Neon' : 'Standard PostgreSQL');
     
     // Test database connection
     pool.query('SELECT NOW()')
@@ -296,12 +301,20 @@ console.log('Current directory:', process.cwd());
 console.log('Files in current directory:', fs.readdirSync('.'));
 console.log('Files in dist directory (if exists):', fs.existsSync('./dist') ? fs.readdirSync('./dist') : 'dist directory not found');
 
-// Serve static files in production - try different paths
-if (fs.existsSync('./dist')) {
-  console.log('Using ./dist for static files');
+// Serve static files in production - try different paths with special handling for Vite output
+if (fs.existsSync('./dist/public')) {
+  console.log('Using ./dist/public for static files (Vite output structure)');
+  app.use(express.static('./dist/public'));  // Serve the Vite output files first
+  app.use(express.static('./dist'));         // Then other files in dist
+} else if (fs.existsSync('/opt/render/project/src/dist/public')) {
+  console.log('Using /opt/render/project/src/dist/public for static files');
+  app.use(express.static('/opt/render/project/src/dist/public'));
+  app.use(express.static('/opt/render/project/src/dist'));
+} else if (fs.existsSync('./dist')) {
+  console.log('Using ./dist for static files (fallback)');
   app.use(express.static('./dist'));
 } else if (fs.existsSync('/opt/render/project/src/dist')) {
-  console.log('Using /opt/render/project/src/dist for static files');
+  console.log('Using /opt/render/project/src/dist for static files (fallback)');
   app.use(express.static('/opt/render/project/src/dist'));
 } else {
   console.log('WARNING: Could not find dist directory');
@@ -310,9 +323,15 @@ if (fs.existsSync('./dist')) {
 // SPA support - serve index.html for all other routes with fallbacks
 app.get('*', (req, res) => {
   const paths = [
+    // Try Vite output structure first
+    path.join(process.cwd(), 'dist', 'public', 'index.html'),
+    path.join('/opt/render/project/src/dist', 'public', 'index.html'),
+    // Then try standard paths
     path.join(process.cwd(), 'dist', 'index.html'),
     path.join('/opt/render/project/src/dist', 'index.html'),
-    path.join('/opt/render/project/src/client/dist', 'index.html')
+    path.join('/opt/render/project/src/client/dist', 'index.html'),
+    // Finally try other possible locations
+    path.join('/opt/render/project/src/client/dist', 'public', 'index.html')
   ];
   
   // Try each path in sequence until we find one that exists
