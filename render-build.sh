@@ -2,6 +2,9 @@
 # Install all dependencies
 npm ci
 
+# Install vite locally to ensure it's available during build
+npm install vite --no-save
+
 # Build client with Vite
 npx vite build --emptyOutDir
 

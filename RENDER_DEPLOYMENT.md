@@ -19,7 +19,7 @@ Enter the following settings:
 | **Region** | Choose the closest to your target users (e.g., `EU West` for UK users) |
 | **Branch** | `main` (or your production branch) |
 | **Build Command** | `./render-build.sh` |
-| **Start Command** | `./render-start.sh` |
+| **Start Command** | `./render-start.sh` (IMPORTANT: Make sure there are no extra spaces or characters) |
 | **Plan** | Select appropriate plan (Individual is $7/month) |
 
 ## 3. Environment Variables
@@ -82,10 +82,33 @@ Before final launch, verify:
 
 ## Troubleshooting
 
-If you encounter a build error related to Vite or ESM modules:
+### Common Issues and Solutions
 
+#### Error: Cannot find package 'vite'
+If you see this error in the build logs:
+```
+Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'vite' imported from ...
+```
+The build script has been updated to install Vite locally during the build process, which should resolve this issue.
+
+#### Error: "nd ./render-start.sh" command not found
+If you see this error:
+```
+bash: line 1: nd: command not found
+```
+There may be invisible characters or spaces in your Start Command field. Go to your Web Service settings and:
+1. Delete the entire Start Command value
+2. Type it again fresh as: `./render-start.sh`
+3. Make sure there are no extra spaces before or after
+
+#### Database Connection Issues
+If your application deploys but can't connect to the database:
+1. Verify the DATABASE_URL environment variable is set correctly
+2. Check if your database is in the same region as your web service
+3. Make sure your IP allowlist in the database settings includes your web service
+
+#### General Troubleshooting Steps
 1. Check the logs in the Render dashboard for specific error messages
 2. Ensure the render-build.sh and render-start.sh files are executable (`chmod +x render-*.sh`)
 3. Verify that the build command in render-build.sh is using the correct paths
-4. If you see errors about the database connection, check your DATABASE_URL environment variable
-5. If required, use "Manual Deploy" in the Render dashboard to retry a failed deployment
+4. If required, use "Manual Deploy" in the Render dashboard to retry a failed deployment
