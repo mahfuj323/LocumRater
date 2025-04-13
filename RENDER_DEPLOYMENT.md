@@ -84,6 +84,19 @@ Before final launch, verify:
 
 ### Common Issues and Solutions
 
+#### Bad Gateway Error
+If your site shows a "Bad Gateway" error after deployment:
+1. Check if the server is actually running by viewing the logs in the Render dashboard
+2. Try accessing the health check endpoint directly: `https://[your-service-name].onrender.com/api/health`
+3. If the health check returns a response, your server is running but might have issues with serving the static files
+4. If the health check fails, there might be a database connection issue. Check the DATABASE_URL environment variable
+
+The updated server implementation now includes:
+- Error handling for database connection issues
+- A health check endpoint at `/api/health`
+- Fallback to memory-based session store if database is unavailable
+- Better logging for debugging
+
 #### Error: ENOENT: no such file or directory, stat '/opt/render/project/src/dist/index.html'
 If you get this error, it indicates that the static files aren't being found in the expected location. The updated build script:
 1. Adds additional debugging information to locate where files are being created

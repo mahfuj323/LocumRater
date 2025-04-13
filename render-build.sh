@@ -91,21 +91,52 @@ app.use((req, res, next) => {
   next();
 });
 
-// Setup database connection
-if (!process.env.DATABASE_URL) {
-  throw new Error('DATABASE_URL must be set');
+// Setup database connection with error handling
+let pool;
+let db;
+let sessionStore;
+
+try {
+  if (!process.env.DATABASE_URL) {
+    console.error('WARNING: DATABASE_URL is not set. Some features will be limited.');
+  } else {
+    console.log('Attempting to connect to database...');
+    
+    // Database connection
+    pool = new Pool({ 
+      connectionString: process.env.DATABASE_URL,
+      max: 5, // Maximum number of clients in the pool
+      idleTimeoutMillis: 30000, // How long a client is allowed to remain idle
+      connectionTimeoutMillis: 10000, // Maximum time to wait for a connection
+    });
+    
+    // Test database connection
+    pool.query('SELECT NOW()')
+      .then(res => console.log('Database connection successful:', res.rows[0]))
+      .catch(err => console.error('Database connection test failed:', err));
+    
+    db = drizzle(pool);
+    
+    // Connect-pg-simple for session store 
+    const PostgresSessionStore = connectPg(session);
+    sessionStore = new PostgresSessionStore({ 
+      pool, 
+      createTableIfMissing: true 
+    });
+    
+    console.log('Database and session store initialized');
+  }
+} catch (error) {
+  console.error('Error setting up database:', error);
+  console.log('Continuing with limited functionality');
 }
 
-// Database connection
-const pool = new Pool({ connectionString: process.env.DATABASE_URL });
-const db = drizzle(pool);
-
-// Connect-pg-simple for session store 
-const PostgresSessionStore = connectPg(session);
-const sessionStore = new PostgresSessionStore({ 
-  pool, 
-  createTableIfMissing: true 
-});
+// Use memory store as fallback if database connection fails
+if (!sessionStore) {
+  console.log('Using memory session store (not persistent)');
+  const MemoryStore = session.MemoryStore;
+  sessionStore = new MemoryStore();
+}
 
 // Authentication setup
 const scryptAsync = promisify(scrypt);
@@ -141,15 +172,27 @@ app.use(session(sessionSettings));
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Database access functions
+// Database access functions with error handling
 async function getUser(id) {
-  const [user] = await db.execute(\`SELECT * FROM users WHERE id = \${id}\`);
-  return user || undefined;
+  try {
+    if (!db) return undefined;
+    const [user] = await db.execute(\`SELECT * FROM users WHERE id = \${id}\`);
+    return user || undefined;
+  } catch (error) {
+    console.error('Error in getUser:', error);
+    return undefined;
+  }
 }
 
 async function getUserByUsername(username) {
-  const [user] = await db.execute(\`SELECT * FROM users WHERE username = '\${username}'\`);
-  return user || undefined;
+  try {
+    if (!db) return undefined;
+    const [user] = await db.execute(\`SELECT * FROM users WHERE username = '\${username}'\`);
+    return user || undefined;
+  } catch (error) {
+    console.error('Error in getUserByUsername:', error);
+    return undefined;
+  }
 }
 
 // Configure Passport
@@ -194,12 +237,35 @@ app.get('/api/user', (req, res) => {
   res.json(req.user);
 });
 
+// Add a basic health check endpoint
+app.get('/api/health', (req, res) => {
+  res.json({
+    status: 'ok',
+    timestamp: new Date().toISOString(),
+    env: process.env.NODE_ENV || 'development',
+    database: pool ? 'connected' : 'not connected'
+  });
+});
+
 // Add essential API routes
 app.get('/api/workplaces', async (req, res) => {
   try {
+    if (!pool) {
+      // Return mock empty data if no database connection
+      console.warn('No database connection for /api/workplaces request');
+      return res.json({ 
+        workplaces: [], 
+        isLimited: true,
+        message: 'Database connection not available'
+      });
+    }
+    
     // Basic workplaces endpoint for initial testing
+    console.log('Executing workplaces query...');
     const query = 'SELECT * FROM workplaces LIMIT 10';
+    
     const result = await pool.query(query);
+    console.log('Query complete, returned', result.rows?.length || 0, 'rows');
     const workplaces = result.rows || [];
     
     // For non-authenticated users, return limited data
@@ -211,7 +277,10 @@ app.get('/api/workplaces', async (req, res) => {
     res.json({ workplaces, isLimited: false });
   } catch (error) {
     console.error('Error fetching workplaces:', error);
-    res.status(500).json({ message: "Failed to fetch workplaces" });
+    res.status(500).json({ 
+      message: "Failed to fetch workplaces",
+      error: error.message
+    });
   }
 });
 
@@ -308,7 +377,8 @@ if [ ! -f "dist/index.html" ]; then
         The site is currently in maintenance mode. Please check back shortly.
       </p>
       <p>
-        <a href="/api/workplaces">View API Status</a>
+        <a href="/api/health">Check Server Health</a> | 
+        <a href="/api/workplaces">View Workplaces API</a>
       </p>
     </div>
   </body>
