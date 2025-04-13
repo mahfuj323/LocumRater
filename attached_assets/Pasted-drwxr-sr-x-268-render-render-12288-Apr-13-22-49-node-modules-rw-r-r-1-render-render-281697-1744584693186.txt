@@ -1,0 +1,149 @@
+drwxr-sr-x 268 render render   12288 Apr 13 22:49 node_modules
+-rw-r--r--   1 render render  281697 Apr 13 22:48 package-lock.json
+-rw-r--r--   1 render render    2511 Apr 13 22:48 package.json
+-rw-r--r--   1 render render      80 Apr 13 22:48 postcss.config.js
+-rw-r--r--   1 render render 6368004 Apr 13 22:48 project-source.zip
+-rwxr-xr-x   1 render render   11583 Apr 13 22:48 render-build.sh
+-rwxr-xr-x   1 render render     205 Apr 13 22:48 render-start.sh
+-rw-r--r--   1 render render      41 Apr 13 22:48 replit.nix
+drwxr-sr-x   2 render render    4096 Apr 13 22:48 server
+drwxr-sr-x   2 render render    4096 Apr 13 22:48 shared
+-rw-r--r--   1 render render    2787 Apr 13 22:48 tailwind.config.ts
+-rw-r--r--   1 render render      98 Apr 13 22:48 theme.json
+-rw-r--r--   1 render render     657 Apr 13 22:48 tsconfig.json
+-rw-r--r--   1 render render     209 Apr 13 22:48 vercel.json
+-rw-r--r--   1 render render     978 Apr 13 22:48 vite.config.ts
+failed to load config from /opt/render/project/src/vite.config.ts
+error during build:
+Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'vite' imported from /opt/render/project/src/node_modules/.vite-temp/vite.config.ts.timestamp-1744584583841-7e7da125a02ac.mjs
+    at Object.getPackageJSONURL (node:internal/modules/package_json_reader:268:9)
+    at packageResolve (node:internal/modules/esm/resolve:768:81)
+    at moduleResolve (node:internal/modules/esm/resolve:854:18)
+    at defaultResolve (node:internal/modules/esm/resolve:984:11)
+    at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:685:12)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:634:25)
+    at ModuleLoader.resolve (node:internal/modules/esm/loader:617:38)
+    at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:273:38)
+    at ModuleJob._link (node:internal/modules/esm/module_job:135:49)
+Directory contents after Vite build:
+total 8992
+drwxr-sr-x   9 render render    4096 Apr 13 22:48 .
+drwxr-sr-x   4 render render    4096 Apr 13 22:48 ..
+-rw-r--r--   1 render render     107 Apr 13 22:48 .env.production
+drwxr-sr-x   8 render render    4096 Apr 13 22:48 .git
+-rw-r--r--   1 render render     386 Apr 13 22:48 .gitignore
+-rw-r--r--   1 render render     811 Apr 13 22:48 .replit
+-rw-r--r--   1 render render    2691 Apr 13 22:48 DEPLOYMENT.md
+-rw-r--r--   1 render render    1344 Apr 13 22:48 README.md
+-rw-r--r--   1 render render    5870 Apr 13 22:48 RENDER_DEPLOYMENT.md
+drwxr-sr-x   2 render render    4096 Apr 13 22:48 attached_assets
+-rw-r--r--   1 render render 2421704 Apr 13 22:48 build-files.zip
+drwxr-sr-x   3 render render    4096 Apr 13 22:48 client
+-rw-r--r--   1 render render     492 Apr 13 22:48 db-migrate.js
+drwxr-sr-x   3 render render    4096 Apr 13 22:48 dist
+-rw-r--r--   1 render render     325 Apr 13 22:48 drizzle.config.ts
+drwxr-sr-x 269 render render   12288 Apr 13 22:49 node_modules
+-rw-r--r--   1 render render  281697 Apr 13 22:48 package-lock.json
+-rw-r--r--   1 render render    2511 Apr 13 22:48 package.json
+-rw-r--r--   1 render render      80 Apr 13 22:48 postcss.config.js
+-rw-r--r--   1 render render 6368004 Apr 13 22:48 project-source.zip
+-rwxr-xr-x   1 render render   11583 Apr 13 22:48 render-build.sh
+-rwxr-xr-x   1 render render     205 Apr 13 22:48 render-start.sh
+-rw-r--r--   1 render render      41 Apr 13 22:48 replit.nix
+drwxr-sr-x   2 render render    4096 Apr 13 22:48 server
+drwxr-sr-x   2 render render    4096 Apr 13 22:48 shared
+-rw-r--r--   1 render render    2787 Apr 13 22:48 tailwind.config.ts
+-rw-r--r--   1 render render      98 Apr 13 22:48 theme.json
+-rw-r--r--   1 render render     657 Apr 13 22:48 tsconfig.json
+-rw-r--r--   1 render render     209 Apr 13 22:48 vercel.json
+-rw-r--r--   1 render render     978 Apr 13 22:48 vite.config.ts
+Dist directory contents:
+total 36
+drwxr-sr-x 3 render render  4096 Apr 13 22:48 .
+drwxr-sr-x 9 render render  4096 Apr 13 22:48 ..
+-rw-r--r-- 1 render render 24431 Apr 13 22:48 index.js
+drwxr-sr-x 3 render render  4096 Apr 13 22:48 public
+  dist/index.js  7.7kb
+⚡ Done in 7ms
+WARNING: index.html not found, creating a fallback version
+Final dist directory contents:
+total 24
+drwxr-sr-x 3 render render 4096 Apr 13 22:49 .
+drwxr-sr-x 9 render render 4096 Apr 13 22:49 ..
+-rw-r--r-- 1 render render 1049 Apr 13 22:49 index.html
+-rw-r--r-- 1 render render 7867 Apr 13 22:49 index.js
+drwxr-sr-x 3 render render 4096 Apr 13 22:48 public
+==> Uploading build...
+==> Uploaded in 4.5s. Compression took 3.1s
+==> Build successful 🎉
+==> Deploying...
+==> Running './render-start.sh'
+Attempting to connect to database...
+Database and session store initialized
+Current directory: /opt/render/project/src
+Files in current directory: [
+  '.env.production',      '.git',
+  '.gitignore',           '.replit',
+  'DEPLOYMENT.md',        'README.md',
+  'RENDER_DEPLOYMENT.md', 'attached_assets',
+  'build-files.zip',      'client',
+  'db-migrate.js',        'dist',
+  'drizzle.config.ts',    'node_modules',
+  'package-lock.json',    'package.json',
+  'postcss.config.js',    'project-source.zip',
+  'render-build.sh',      'render-start.sh',
+  'replit.nix',           'server',
+  'server-prod.ts',       'shared',
+  'tailwind.config.ts',   'theme.json',
+  'tsconfig.json',        'vercel.json',
+  'vite.config.ts'
+]
+Files in dist directory (if exists): [ 'index.html', 'index.js', 'public' ]
+Using ./dist for static files
+Production server running on port 10000
+Database connection test failed: ErrorEvent {
+  [Symbol(kTarget)]: WebSocket {
+    _events: [Object: null prototype] {
+      error: [Function],
+      message: [Function],
+      close: [Function],
+      open: [Function]
+    },
+    _eventsCount: 4,
+    _maxListeners: undefined,
+    _binaryType: 'arraybuffer',
+    _closeCode: 1006,
+    _closeFrameReceived: false,
+    _closeFrameSent: false,
+    _closeMessage: <Buffer >,
+    _closeTimer: null,
+    _errorEmitted: true,
+    _extensions: {},
+    _paused: false,
+    _protocol: '',
+    _readyState: 3,
+    _receiver: null,
+    _sender: null,
+    _socket: null,
+    _bufferedAmount: 0,
+    _isServer: false,
+    _redirects: 0,
+    _autoPong: true,
+    _url: 'wss://dpg-cvtupr2dbo4c739bf090-a/v2',
+    _req: null,
+    [Symbol(shapeMode)]: false,
+    [Symbol(kCapture)]: false
+  },
+  [Symbol(kType)]: 'error',
+  [Symbol(kError)]: Error: connect ECONNREFUSED 10.202.107.189:443
+      at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1634:16) {
+    errno: -111,
+    code: 'ECONNREFUSED',
+    syscall: 'connect',
+    address: '10.202.107.189',
+    port: 443
+  },
+  [Symbol(kMessage)]: 'connect ECONNREFUSED 10.202.107.189:443'
+}
+==> Your service is live 🎉
+Serving index.html from: /opt/render/project/src/dist/index.html

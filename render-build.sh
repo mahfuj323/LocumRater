@@ -337,8 +337,13 @@ EOF
 # Build the production server
 npx esbuild server-prod.ts --platform=node --packages=external --bundle --format=esm --outfile=dist/index.js
 
-# Create a fallback index.html if Vite build somehow failed
-if [ ! -f "dist/index.html" ]; then
+# Check if we have prebuilt files
+if [ -f "dist/public/index.html" ]; then
+  echo "Found prebuilt files in dist/public, preserving them"
+  # Make sure the server finds the index.html file
+  cp dist/public/index.html dist/index.html
+else
+  # Create a fallback index.html if no prebuilt files
   echo "WARNING: index.html not found, creating a fallback version"
   cat > dist/index.html << HTML_EOF
 <!DOCTYPE html>
