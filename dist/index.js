@@ -1,0 +1,769 @@
+var __defProp = Object.defineProperty;
+var __export = (target, all) => {
+  for (var name in all)
+    __defProp(target, name, { get: all[name], enumerable: true });
+};
+
+// server/index.ts
+import express2 from "express";
+
+// server/routes.ts
+import { createServer } from "http";
+
+// server/auth.ts
+import passport from "passport";
+import { Strategy as LocalStrategy } from "passport-local";
+import session2 from "express-session";
+import { scrypt, randomBytes, timingSafeEqual } from "crypto";
+import { promisify } from "util";
+
+// server/db.ts
+import { Pool, neonConfig } from "@neondatabase/serverless";
+import { drizzle } from "drizzle-orm/neon-serverless";
+import ws from "ws";
+
+// shared/schema.ts
+var schema_exports = {};
+__export(schema_exports, {
+  agencies: () => agencies,
+  agenciesRelations: () => agenciesRelations,
+  agencyReviews: () => agencyReviews,
+  agencyReviewsRelations: () => agencyReviewsRelations,
+  contacts: () => contacts,
+  faqQuestions: () => faqQuestions,
+  insertAgencyReviewSchema: () => insertAgencyReviewSchema,
+  insertAgencySchema: () => insertAgencySchema,
+  insertContactSchema: () => insertContactSchema,
+  insertFaqQuestionSchema: () => insertFaqQuestionSchema,
+  insertUserSchema: () => insertUserSchema,
+  insertWorkplaceReviewSchema: () => insertWorkplaceReviewSchema,
+  insertWorkplaceSchema: () => insertWorkplaceSchema,
+  users: () => users,
+  usersRelations: () => usersRelations,
+  workplaceReviews: () => workplaceReviews,
+  workplaceReviewsRelations: () => workplaceReviewsRelations,
+  workplaces: () => workplaces,
+  workplacesRelations: () => workplacesRelations
+});
+import { pgTable, text, serial, integer, timestamp, boolean, doublePrecision } from "drizzle-orm/pg-core";
+import { relations } from "drizzle-orm";
+import { createInsertSchema } from "drizzle-zod";
+var users = pgTable("users", {
+  id: serial("id").primaryKey(),
+  username: text("username").notNull().unique(),
+  password: text("password").notNull(),
+  fullName: text("full_name").notNull(),
+  email: text("email").notNull().unique(),
+  profession: text("profession").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull()
+});
+var insertUserSchema = createInsertSchema(users).pick({
+  username: true,
+  password: true,
+  fullName: true,
+  email: true,
+  profession: true
+});
+var workplaces = pgTable("workplaces", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  city: text("city").notNull(),
+  postcode: text("postcode").notNull(),
+  address: text("address").notNull(),
+  type: text("type").notNull(),
+  phone: text("phone"),
+  createdBy: integer("created_by").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull()
+});
+var insertWorkplaceSchema = createInsertSchema(workplaces).pick({
+  name: true,
+  city: true,
+  postcode: true,
+  address: true,
+  type: true,
+  phone: true,
+  createdBy: true
+});
+var agencies = pgTable("agencies", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  location: text("location"),
+  createdBy: integer("created_by").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull()
+});
+var insertAgencySchema = createInsertSchema(agencies).pick({
+  name: true,
+  location: true,
+  createdBy: true
+});
+var workplaceReviews = pgTable("workplace_reviews", {
+  id: serial("id").primaryKey(),
+  workplaceId: integer("workplace_id").notNull(),
+  userId: integer("user_id").notNull(),
+  rating: integer("rating").notNull(),
+  position: text("position").notNull(),
+  payRate: doublePrecision("pay_rate").notNull(),
+  paymentTime: integer("payment_time").notNull(),
+  transport: text("transport").notNull(),
+  facilities: text("facilities"),
+  comments: text("comments").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull()
+});
+var insertWorkplaceReviewSchema = createInsertSchema(workplaceReviews).pick({
+  workplaceId: true,
+  userId: true,
+  rating: true,
+  position: true,
+  payRate: true,
+  paymentTime: true,
+  transport: true,
+  facilities: true,
+  comments: true
+});
+var agencyReviews = pgTable("agency_reviews", {
+  id: serial("id").primaryKey(),
+  agencyId: integer("agency_id").notNull(),
+  userId: integer("user_id").notNull(),
+  rating: integer("rating").notNull(),
+  payRates: text("pay_rates"),
+  paymentReliability: text("payment_reliability").notNull(),
+  communication: text("communication").notNull(),
+  comments: text("comments").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull()
+});
+var insertAgencyReviewSchema = createInsertSchema(agencyReviews).pick({
+  agencyId: true,
+  userId: true,
+  rating: true,
+  payRates: true,
+  paymentReliability: true,
+  communication: true,
+  comments: true
+});
+var contacts = pgTable("contacts", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  email: text("email").notNull(),
+  subject: text("subject").notNull(),
+  message: text("message").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull()
+});
+var insertContactSchema = createInsertSchema(contacts).pick({
+  name: true,
+  email: true,
+  subject: true,
+  message: true
+});
+var faqQuestions = pgTable("faq_questions", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  email: text("email").notNull(),
+  question: text("question").notNull(),
+  anonymous: boolean("anonymous").default(false).notNull(),
+  answered: boolean("answered").default(false).notNull(),
+  answer: text("answer"),
+  createdAt: timestamp("created_at").defaultNow().notNull()
+});
+var insertFaqQuestionSchema = createInsertSchema(faqQuestions).pick({
+  name: true,
+  email: true,
+  question: true,
+  anonymous: true
+});
+var usersRelations = relations(users, ({ many }) => ({
+  workplaceReviews: many(workplaceReviews),
+  agencyReviews: many(agencyReviews),
+  workplaces: many(workplaces, { relationName: "created_workplaces" }),
+  agencies: many(agencies, { relationName: "created_agencies" })
+}));
+var workplacesRelations = relations(workplaces, ({ one, many }) => ({
+  creator: one(users, {
+    fields: [workplaces.createdBy],
+    references: [users.id],
+    relationName: "created_workplaces"
+  }),
+  reviews: many(workplaceReviews)
+}));
+var agenciesRelations = relations(agencies, ({ one, many }) => ({
+  creator: one(users, {
+    fields: [agencies.createdBy],
+    references: [users.id],
+    relationName: "created_agencies"
+  }),
+  reviews: many(agencyReviews)
+}));
+var workplaceReviewsRelations = relations(workplaceReviews, ({ one }) => ({
+  workplace: one(workplaces, {
+    fields: [workplaceReviews.workplaceId],
+    references: [workplaces.id]
+  }),
+  user: one(users, {
+    fields: [workplaceReviews.userId],
+    references: [users.id]
+  })
+}));
+var agencyReviewsRelations = relations(agencyReviews, ({ one }) => ({
+  agency: one(agencies, {
+    fields: [agencyReviews.agencyId],
+    references: [agencies.id]
+  }),
+  user: one(users, {
+    fields: [agencyReviews.userId],
+    references: [users.id]
+  })
+}));
+
+// server/db.ts
+neonConfig.webSocketConstructor = ws;
+if (!process.env.DATABASE_URL) {
+  throw new Error(
+    "DATABASE_URL must be set. Did you forget to provision a database?"
+  );
+}
+var pool = new Pool({ connectionString: process.env.DATABASE_URL });
+var db = drizzle({ client: pool, schema: schema_exports });
+
+// server/db-storage.ts
+import { eq } from "drizzle-orm";
+import connectPg from "connect-pg-simple";
+import session from "express-session";
+var PostgresSessionStore = connectPg(session);
+var DatabaseStorage = class {
+  sessionStore;
+  constructor() {
+    this.sessionStore = new PostgresSessionStore({
+      pool,
+      createTableIfMissing: true
+    });
+  }
+  // User operations
+  async getUser(id) {
+    const [user] = await db.select().from(users).where(eq(users.id, id));
+    return user;
+  }
+  async getUserByUsername(username) {
+    const [user] = await db.select().from(users).where(eq(users.username, username));
+    return user;
+  }
+  async getUserByEmail(email) {
+    const [user] = await db.select().from(users).where(eq(users.email, email));
+    return user;
+  }
+  async createUser(userData) {
+    const [user] = await db.insert(users).values(userData).returning();
+    return user;
+  }
+  // Workplace operations
+  async getWorkplaces(location, role, rating, facilities) {
+    let query = db.select().from(workplaces);
+    if (location) {
+      query = query.where(eq(workplaces.city, location));
+    }
+    const results = await query;
+    return results;
+  }
+  async getWorkplace(id) {
+    const [workplace] = await db.select().from(workplaces).where(eq(workplaces.id, id));
+    return workplace;
+  }
+  async createWorkplace(workplaceData) {
+    const [workplace] = await db.insert(workplaces).values(workplaceData).returning();
+    return workplace;
+  }
+  // Agency operations
+  async getAgencies() {
+    const results = await db.select().from(agencies);
+    return results;
+  }
+  async getAgency(id) {
+    const [agency] = await db.select().from(agencies).where(eq(agencies.id, id));
+    return agency;
+  }
+  async createAgency(agencyData) {
+    const [agency] = await db.insert(agencies).values(agencyData).returning();
+    return agency;
+  }
+  // Review operations
+  async getWorkplaceReviews(workplaceId) {
+    const reviews = await db.select().from(workplaceReviews).where(eq(workplaceReviews.workplaceId, workplaceId));
+    const reviewsWithUsers = await Promise.all(
+      reviews.map(async (review) => {
+        const [user] = await db.select({
+          id: users.id,
+          username: users.username,
+          fullName: users.fullName,
+          profession: users.profession
+        }).from(users).where(eq(users.id, review.userId));
+        return {
+          ...review,
+          user: user || { id: 0, username: "Anonymous", fullName: "Anonymous User", profession: "Unknown" }
+        };
+      })
+    );
+    return reviewsWithUsers;
+  }
+  async createWorkplaceReview(reviewData) {
+    const [review] = await db.insert(workplaceReviews).values(reviewData).returning();
+    return review;
+  }
+  async getAgencyReviews(agencyId) {
+    const reviews = await db.select().from(agencyReviews).where(eq(agencyReviews.agencyId, agencyId));
+    const reviewsWithUsers = await Promise.all(
+      reviews.map(async (review) => {
+        const [user] = await db.select({
+          id: users.id,
+          username: users.username,
+          fullName: users.fullName,
+          profession: users.profession
+        }).from(users).where(eq(users.id, review.userId));
+        return {
+          ...review,
+          user: user || { id: 0, username: "Anonymous", fullName: "Anonymous User", profession: "Unknown" }
+        };
+      })
+    );
+    return reviewsWithUsers;
+  }
+  async createAgencyReview(reviewData) {
+    const [review] = await db.insert(agencyReviews).values(reviewData).returning();
+    return review;
+  }
+  // Contact operations
+  async createContact(contactData) {
+    const [contact] = await db.insert(contacts).values(contactData).returning();
+    return contact;
+  }
+  // FAQ Questions operations
+  async createFaqQuestion(questionData) {
+    const [question] = await db.insert(faqQuestions).values(questionData).returning();
+    return question;
+  }
+};
+
+// server/storage.ts
+var storage = new DatabaseStorage();
+
+// server/auth.ts
+var scryptAsync = promisify(scrypt);
+async function hashPassword(password) {
+  const salt = randomBytes(16).toString("hex");
+  const buf = await scryptAsync(password, salt, 64);
+  return `${buf.toString("hex")}.${salt}`;
+}
+async function comparePasswords(supplied, stored) {
+  const [hashed, salt] = stored.split(".");
+  const hashedBuf = Buffer.from(hashed, "hex");
+  const suppliedBuf = await scryptAsync(supplied, salt, 64);
+  return timingSafeEqual(hashedBuf, suppliedBuf);
+}
+function setupAuth(app2) {
+  const sessionSettings = {
+    secret: process.env.SESSION_SECRET || "rate-my-locum-secret",
+    resave: false,
+    saveUninitialized: false,
+    store: storage.sessionStore,
+    cookie: {
+      maxAge: 30 * 24 * 60 * 60 * 1e3,
+      // 30 days
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax"
+    }
+  };
+  app2.set("trust proxy", 1);
+  app2.use(session2(sessionSettings));
+  app2.use(passport.initialize());
+  app2.use(passport.session());
+  passport.use(
+    new LocalStrategy(async (username, password, done) => {
+      try {
+        const user = await storage.getUserByUsername(username);
+        if (!user || !await comparePasswords(password, user.password)) {
+          return done(null, false);
+        }
+        return done(null, user);
+      } catch (err) {
+        return done(err);
+      }
+    })
+  );
+  passport.serializeUser((user, done) => done(null, user.id));
+  passport.deserializeUser(async (id, done) => {
+    try {
+      const user = await storage.getUser(id);
+      done(null, user);
+    } catch (err) {
+      done(err);
+    }
+  });
+  app2.post("/api/register", async (req, res, next) => {
+    try {
+      const existingUserByUsername = await storage.getUserByUsername(req.body.username);
+      if (existingUserByUsername) {
+        return res.status(400).send("Username already exists");
+      }
+      const existingUserByEmail = await storage.getUserByEmail(req.body.email);
+      if (existingUserByEmail) {
+        return res.status(400).send("Email already exists");
+      }
+      const user = await storage.createUser({
+        ...req.body,
+        password: await hashPassword(req.body.password)
+      });
+      req.login(user, (err) => {
+        if (err) return next(err);
+        res.status(201).json(user);
+      });
+    } catch (err) {
+      next(err);
+    }
+  });
+  app2.post("/api/login", passport.authenticate("local"), (req, res) => {
+    res.status(200).json(req.user);
+  });
+  app2.post("/api/logout", (req, res, next) => {
+    req.logout((err) => {
+      if (err) return next(err);
+      res.sendStatus(200);
+    });
+  });
+  app2.get("/api/user", (req, res) => {
+    if (!req.isAuthenticated()) return res.sendStatus(401);
+    res.json(req.user);
+  });
+}
+
+// server/routes.ts
+import { ZodError } from "zod";
+import { fromZodError } from "zod-validation-error";
+async function registerRoutes(app2) {
+  setupAuth(app2);
+  const isAuthenticated = (req, res, next) => {
+    if (req.isAuthenticated()) {
+      return next();
+    }
+    return res.status(401).json({ message: "Unauthorized" });
+  };
+  const validateBody = (schema) => (req, res, next) => {
+    try {
+      schema.parse(req.body);
+      next();
+    } catch (error) {
+      if (error instanceof ZodError) {
+        const validationError = fromZodError(error);
+        return res.status(400).json({ message: validationError.message });
+      }
+      next(error);
+    }
+  };
+  app2.post("/api/contact", validateBody(insertContactSchema), async (req, res) => {
+    try {
+      const contact = await storage.createContact(req.body);
+      res.status(201).json({ message: "Message sent successfully" });
+    } catch (error) {
+      res.status(500).json({ message: "Failed to send message" });
+    }
+  });
+  app2.get("/api/workplaces", async (req, res) => {
+    try {
+      const { location, role, rating, facilities } = req.query;
+      const workplaces2 = await storage.getWorkplaces(
+        location,
+        role,
+        Number(rating),
+        facilities
+      );
+      if (!req.isAuthenticated()) {
+        const limitedWorkplaces = workplaces2.slice(0, 3);
+        return res.json({ workplaces: limitedWorkplaces, isLimited: true });
+      }
+      res.json({ workplaces: workplaces2, isLimited: false });
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch workplaces" });
+    }
+  });
+  app2.get("/api/workplaces/:id", async (req, res) => {
+    try {
+      const workplace = await storage.getWorkplace(parseInt(req.params.id));
+      if (!workplace) {
+        return res.status(404).json({ message: "Workplace not found" });
+      }
+      const reviews = await storage.getWorkplaceReviews(workplace.id);
+      if (!req.isAuthenticated() && reviews.length > 3) {
+        return res.json({
+          workplace,
+          reviews: reviews.slice(0, 3),
+          totalReviews: reviews.length,
+          isLimited: true
+        });
+      }
+      res.json({ workplace, reviews, totalReviews: reviews.length, isLimited: false });
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch workplace details" });
+    }
+  });
+  app2.post("/api/workplaces", isAuthenticated, validateBody(insertWorkplaceSchema), async (req, res) => {
+    try {
+      const workplace = await storage.createWorkplace({
+        ...req.body,
+        createdBy: req.user.id
+      });
+      res.status(201).json(workplace);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to create workplace" });
+    }
+  });
+  app2.get("/api/agencies", async (req, res) => {
+    try {
+      const agencies2 = await storage.getAgencies();
+      if (!req.isAuthenticated()) {
+        const limitedAgencies = agencies2.slice(0, 3);
+        return res.json({ agencies: limitedAgencies, isLimited: true });
+      }
+      res.json({ agencies: agencies2, isLimited: false });
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch agencies" });
+    }
+  });
+  app2.get("/api/agencies/:id", async (req, res) => {
+    try {
+      const agency = await storage.getAgency(parseInt(req.params.id));
+      if (!agency) {
+        return res.status(404).json({ message: "Agency not found" });
+      }
+      const reviews = await storage.getAgencyReviews(agency.id);
+      if (!req.isAuthenticated() && reviews.length > 3) {
+        return res.json({
+          agency,
+          reviews: reviews.slice(0, 3),
+          totalReviews: reviews.length,
+          isLimited: true
+        });
+      }
+      res.json({ agency, reviews, totalReviews: reviews.length, isLimited: false });
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch agency details" });
+    }
+  });
+  app2.post("/api/agencies", isAuthenticated, validateBody(insertAgencySchema), async (req, res) => {
+    try {
+      const agency = await storage.createAgency({
+        ...req.body,
+        createdBy: req.user.id
+      });
+      res.status(201).json(agency);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to create agency" });
+    }
+  });
+  app2.post(
+    "/api/workplaces/:id/reviews",
+    isAuthenticated,
+    validateBody(insertWorkplaceReviewSchema),
+    async (req, res) => {
+      try {
+        const workplace = await storage.getWorkplace(parseInt(req.params.id));
+        if (!workplace) {
+          return res.status(404).json({ message: "Workplace not found" });
+        }
+        const review = await storage.createWorkplaceReview({
+          ...req.body,
+          workplaceId: workplace.id,
+          userId: req.user.id
+        });
+        res.status(201).json(review);
+      } catch (error) {
+        res.status(500).json({ message: "Failed to create review" });
+      }
+    }
+  );
+  app2.post(
+    "/api/agencies/:id/reviews",
+    isAuthenticated,
+    validateBody(insertAgencyReviewSchema),
+    async (req, res) => {
+      try {
+        const agency = await storage.getAgency(parseInt(req.params.id));
+        if (!agency) {
+          return res.status(404).json({ message: "Agency not found" });
+        }
+        const review = await storage.createAgencyReview({
+          ...req.body,
+          agencyId: agency.id,
+          userId: req.user.id
+        });
+        res.status(201).json(review);
+      } catch (error) {
+        res.status(500).json({ message: "Failed to create review" });
+      }
+    }
+  );
+  app2.post("/api/faq/questions", validateBody(insertFaqQuestionSchema), async (req, res) => {
+    try {
+      const question = await storage.createFaqQuestion({
+        ...req.body,
+        anonymous: !!req.body.anonymous
+        // Ensure boolean
+      });
+      res.status(201).json({ message: "Question submitted successfully", id: question.id });
+    } catch (error) {
+      res.status(500).json({ message: "Failed to submit question" });
+    }
+  });
+  const httpServer = createServer(app2);
+  return httpServer;
+}
+
+// server/vite.ts
+import express from "express";
+import fs from "fs";
+import path2 from "path";
+import { createServer as createViteServer, createLogger } from "vite";
+
+// vite.config.ts
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import themePlugin from "@replit/vite-plugin-shadcn-theme-json";
+import path from "path";
+import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
+var vite_config_default = defineConfig({
+  plugins: [
+    react(),
+    runtimeErrorOverlay(),
+    themePlugin(),
+    ...process.env.NODE_ENV !== "production" && process.env.REPL_ID !== void 0 ? [
+      await import("@replit/vite-plugin-cartographer").then(
+        (m) => m.cartographer()
+      )
+    ] : []
+  ],
+  resolve: {
+    alias: {
+      "@": path.resolve(import.meta.dirname, "client", "src"),
+      "@shared": path.resolve(import.meta.dirname, "shared"),
+      "@assets": path.resolve(import.meta.dirname, "attached_assets")
+    }
+  },
+  root: path.resolve(import.meta.dirname, "client"),
+  build: {
+    outDir: path.resolve(import.meta.dirname, "dist/public"),
+    emptyOutDir: true
+  }
+});
+
+// server/vite.ts
+import { nanoid } from "nanoid";
+var viteLogger = createLogger();
+function log(message, source = "express") {
+  const formattedTime = (/* @__PURE__ */ new Date()).toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: true
+  });
+  console.log(`${formattedTime} [${source}] ${message}`);
+}
+async function setupVite(app2, server) {
+  const serverOptions = {
+    middlewareMode: true,
+    hmr: { server },
+    allowedHosts: true
+  };
+  const vite = await createViteServer({
+    ...vite_config_default,
+    configFile: false,
+    customLogger: {
+      ...viteLogger,
+      error: (msg, options) => {
+        viteLogger.error(msg, options);
+        process.exit(1);
+      }
+    },
+    server: serverOptions,
+    appType: "custom"
+  });
+  app2.use(vite.middlewares);
+  app2.use("*", async (req, res, next) => {
+    const url = req.originalUrl;
+    try {
+      const clientTemplate = path2.resolve(
+        import.meta.dirname,
+        "..",
+        "client",
+        "index.html"
+      );
+      let template = await fs.promises.readFile(clientTemplate, "utf-8");
+      template = template.replace(
+        `src="/src/main.tsx"`,
+        `src="/src/main.tsx?v=${nanoid()}"`
+      );
+      const page = await vite.transformIndexHtml(url, template);
+      res.status(200).set({ "Content-Type": "text/html" }).end(page);
+    } catch (e) {
+      vite.ssrFixStacktrace(e);
+      next(e);
+    }
+  });
+}
+function serveStatic(app2) {
+  const distPath = path2.resolve(import.meta.dirname, "public");
+  if (!fs.existsSync(distPath)) {
+    throw new Error(
+      `Could not find the build directory: ${distPath}, make sure to build the client first`
+    );
+  }
+  app2.use(express.static(distPath));
+  app2.use("*", (_req, res) => {
+    res.sendFile(path2.resolve(distPath, "index.html"));
+  });
+}
+
+// server/index.ts
+var app = express2();
+app.use(express2.json());
+app.use(express2.urlencoded({ extended: false }));
+app.use((req, res, next) => {
+  const start = Date.now();
+  const path3 = req.path;
+  let capturedJsonResponse = void 0;
+  const originalResJson = res.json;
+  res.json = function(bodyJson, ...args) {
+    capturedJsonResponse = bodyJson;
+    return originalResJson.apply(res, [bodyJson, ...args]);
+  };
+  res.on("finish", () => {
+    const duration = Date.now() - start;
+    if (path3.startsWith("/api")) {
+      let logLine = `${req.method} ${path3} ${res.statusCode} in ${duration}ms`;
+      if (capturedJsonResponse) {
+        logLine += ` :: ${JSON.stringify(capturedJsonResponse)}`;
+      }
+      if (logLine.length > 80) {
+        logLine = logLine.slice(0, 79) + "\u2026";
+      }
+      log(logLine);
+    }
+  });
+  next();
+});
+(async () => {
+  const server = await registerRoutes(app);
+  app.use((err, _req, res, _next) => {
+    const status = err.status || err.statusCode || 500;
+    const message = err.message || "Internal Server Error";
+    res.status(status).json({ message });
+    throw err;
+  });
+  if (app.get("env") === "development") {
+    await setupVite(app, server);
+  } else {
+    serveStatic(app);
+  }
+  const port = 5e3;
+  server.listen({
+    port,
+    host: "0.0.0.0",
+    reusePort: true
+  }, () => {
+    log(`serving on port ${port}`);
+  });
+})();

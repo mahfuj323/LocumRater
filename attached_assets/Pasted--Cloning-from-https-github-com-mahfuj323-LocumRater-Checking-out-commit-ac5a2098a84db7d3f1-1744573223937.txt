@@ -1,0 +1,184 @@
+==> Cloning from https://github.com/mahfuj323/LocumRater
+==> Checking out commit ac5a2098a84db7d3f12e6abb9f3bb74ca1de5fb2 in branch main
+==> Downloading cache...
+==> Transferred 162MB in 8s. Extraction took 5s.
+==> Using Node.js version 22.14.0 (default)
+==> Docs on specifying a Node.js version: https://render.com/docs/node-version
+==> Using Bun version 1.1.0 (default)
+==> Docs on specifying a bun version: https://render.com/docs/bun-version
+==> Running build command './render-build.sh'...
+added 350 packages, and audited 351 packages in 7s
+51 packages are looking for funding
+  run `npm fund` for details
+1 moderate severity vulnerability
+To address all issues, run:
+  npm audit fix
+Run `npm audit` for details.
+up to date, audited 351 packages in 3s
+51 packages are looking for funding
+  run `npm fund` for details
+1 moderate severity vulnerability
+To address all issues, run:
+  npm audit fix
+Run `npm audit` for details.
+Current directory: /opt/render/project/src
+Directory contents before build:
+total 8988
+drwxr-sr-x   8 render render    4096 Apr 13 19:36 .
+drwxr-sr-x   4 render render    4096 Apr 13 19:36 ..
+-rw-r--r--   1 render render     107 Apr 13 19:36 .env.production
+drwxr-sr-x   8 render render    4096 Apr 13 19:36 .git
+-rw-r--r--   1 render render     341 Apr 13 19:36 .gitignore
+-rw-r--r--   1 render render     811 Apr 13 19:36 .replit
+-rw-r--r--   1 render render    2691 Apr 13 19:36 DEPLOYMENT.md
+-rw-r--r--   1 render render    1344 Apr 13 19:36 README.md
+-rw-r--r--   1 render render    5870 Apr 13 19:36 RENDER_DEPLOYMENT.md
+drwxr-sr-x   2 render render    4096 Apr 13 19:36 attached_assets
+-rw-r--r--   1 render render 2421704 Apr 13 19:36 build-files.zip
+drwxr-sr-x   3 render render    4096 Apr 13 19:36 client
+-rw-r--r--   1 render render     492 Apr 13 19:36 db-migrate.js
+-rw-r--r--   1 render render     325 Apr 13 19:36 drizzle.config.ts
+drwxr-sr-x 268 render render   12288 Apr 13 19:37 node_modules
+-rw-r--r--   1 render render  281697 Apr 13 19:36 package-lock.json
+-rw-r--r--   1 render render    2511 Apr 13 19:36 package.json
+-rw-r--r--   1 render render      80 Apr 13 19:36 postcss.config.js
+-rw-r--r--   1 render render 6368004 Apr 13 19:36 project-source.zip
+-rwxr-xr-x   1 render render   11583 Apr 13 19:36 render-build.sh
+-rwxr-xr-x   1 render render     205 Apr 13 19:36 render-start.sh
+-rw-r--r--   1 render render      41 Apr 13 19:36 replit.nix
+drwxr-sr-x   2 render render    4096 Apr 13 19:36 server
+drwxr-sr-x   2 render render    4096 Apr 13 19:36 shared
+-rw-r--r--   1 render render    2787 Apr 13 19:36 tailwind.config.ts
+-rw-r--r--   1 render render      98 Apr 13 19:36 theme.json
+-rw-r--r--   1 render render     657 Apr 13 19:36 tsconfig.json
+-rw-r--r--   1 render render     209 Apr 13 19:36 vercel.json
+-rw-r--r--   1 render render     978 Apr 13 19:36 vite.config.ts
+failed to load config from /opt/render/project/src/vite.config.ts
+error during build:
+Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'vite' imported from /opt/render/project/src/node_modules/.vite-temp/vite.config.ts.timestamp-1744573030111-59d88203ce44e.mjs
+    at Object.getPackageJSONURL (node:internal/modules/package_json_reader:268:9)
+    at packageResolve (node:internal/modules/esm/resolve:768:81)
+    at moduleResolve (node:internal/modules/esm/resolve:854:18)
+    at defaultResolve (node:internal/modules/esm/resolve:984:11)
+    at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:685:12)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:634:25)
+    at ModuleLoader.resolve (node:internal/modules/esm/loader:617:38)
+    at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:273:38)
+    at ModuleJob._link (node:internal/modules/esm/module_job:135:49)
+Directory contents after Vite build:
+total 8988
+ls: cannot access 'dist': No such file or directory
+drwxr-sr-x   8 render render    4096 Apr 13 19:36 .
+drwxr-sr-x   4 render render    4096 Apr 13 19:36 ..
+-rw-r--r--   1 render render     107 Apr 13 19:36 .env.production
+drwxr-sr-x   8 render render    4096 Apr 13 19:36 .git
+-rw-r--r--   1 render render     341 Apr 13 19:36 .gitignore
+-rw-r--r--   1 render render     811 Apr 13 19:36 .replit
+-rw-r--r--   1 render render    2691 Apr 13 19:36 DEPLOYMENT.md
+-rw-r--r--   1 render render    1344 Apr 13 19:36 README.md
+-rw-r--r--   1 render render    5870 Apr 13 19:36 RENDER_DEPLOYMENT.md
+drwxr-sr-x   2 render render    4096 Apr 13 19:36 attached_assets
+-rw-r--r--   1 render render 2421704 Apr 13 19:36 build-files.zip
+drwxr-sr-x   3 render render    4096 Apr 13 19:36 client
+-rw-r--r--   1 render render     492 Apr 13 19:36 db-migrate.js
+-rw-r--r--   1 render render     325 Apr 13 19:36 drizzle.config.ts
+drwxr-sr-x 269 render render   12288 Apr 13 19:37 node_modules
+-rw-r--r--   1 render render  281697 Apr 13 19:36 package-lock.json
+-rw-r--r--   1 render render    2511 Apr 13 19:36 package.json
+-rw-r--r--   1 render render      80 Apr 13 19:36 postcss.config.js
+-rw-r--r--   1 render render 6368004 Apr 13 19:36 project-source.zip
+-rwxr-xr-x   1 render render   11583 Apr 13 19:36 render-build.sh
+-rwxr-xr-x   1 render render     205 Apr 13 19:36 render-start.sh
+-rw-r--r--   1 render render      41 Apr 13 19:36 replit.nix
+drwxr-sr-x   2 render render    4096 Apr 13 19:36 server
+drwxr-sr-x   2 render render    4096 Apr 13 19:36 shared
+-rw-r--r--   1 render render    2787 Apr 13 19:36 tailwind.config.ts
+-rw-r--r--   1 render render      98 Apr 13 19:36 theme.json
+-rw-r--r--   1 render render     657 Apr 13 19:36 tsconfig.json
+-rw-r--r--   1 render render     209 Apr 13 19:36 vercel.json
+-rw-r--r--   1 render render     978 Apr 13 19:36 vite.config.ts
+Dist directory contents:
+dist directory not found
+  dist/index.js  7.7kb
+⚡ Done in 3ms
+WARNING: index.html not found, creating a fallback version
+Final dist directory contents:
+total 20
+drwxr-sr-x 2 render render 4096 Apr 13 19:37 .
+drwxr-sr-x 9 render render 4096 Apr 13 19:37 ..
+-rw-r--r-- 1 render render 1049 Apr 13 19:37 index.html
+-rw-r--r-- 1 render render 7867 Apr 13 19:37 index.js
+==> Uploading build...
+==> Uploaded in 4.9s. Compression took 3.3s
+==> Build successful 🎉
+==> Deploying...
+==> Running './render-start.sh'
+Attempting to connect to database...
+Database and session store initialized
+Current directory: /opt/render/project/src
+Files in current directory: [
+  '.env.production',      '.git',
+  '.gitignore',           '.replit',
+  'DEPLOYMENT.md',        'README.md',
+  'RENDER_DEPLOYMENT.md', 'attached_assets',
+  'build-files.zip',      'client',
+  'db-migrate.js',        'dist',
+  'drizzle.config.ts',    'node_modules',
+  'package-lock.json',    'package.json',
+  'postcss.config.js',    'project-source.zip',
+  'render-build.sh',      'render-start.sh',
+  'replit.nix',           'server',
+  'server-prod.ts',       'shared',
+  'tailwind.config.ts',   'theme.json',
+  'tsconfig.json',        'vercel.json',
+  'vite.config.ts'
+]
+Files in dist directory (if exists): [ 'index.html', 'index.js' ]
+Using ./dist for static files
+Production server running on port 10000
+Database connection test failed: ErrorEvent {
+  [Symbol(kTarget)]: WebSocket {
+    _events: [Object: null prototype] {
+      error: [Function],
+      message: [Function],
+      close: [Function],
+      open: [Function]
+    },
+    _eventsCount: 4,
+    _maxListeners: undefined,
+    _binaryType: 'arraybuffer',
+    _closeCode: 1006,
+    _closeFrameReceived: false,
+    _closeFrameSent: false,
+    _closeMessage: <Buffer >,
+    _closeTimer: null,
+    _errorEmitted: true,
+    _extensions: {},
+    _paused: false,
+    _protocol: '',
+    _readyState: 3,
+    _receiver: null,
+    _sender: null,
+    _socket: null,
+    _bufferedAmount: 0,
+    _isServer: false,
+    _redirects: 0,
+    _autoPong: true,
+    _url: 'wss://dpg-cvtupr2dbo4c739bf090-a/v2',
+    _req: null,
+    [Symbol(shapeMode)]: false,
+    [Symbol(kCapture)]: false
+  },
+  [Symbol(kType)]: 'error',
+  [Symbol(kError)]: Error: connect ECONNREFUSED 10.202.107.189:443
+      at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1634:16) {
+    errno: -111,
+    code: 'ECONNREFUSED',
+    syscall: 'connect',
+    address: '10.202.107.189',
+    port: 443
+  },
+  [Symbol(kMessage)]: 'connect ECONNREFUSED 10.202.107.189:443'
+}
+==> Your service is live 🎉
+Serving index.html from: /opt/render/project/src/dist/index.html

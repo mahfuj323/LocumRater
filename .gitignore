@@ -2,7 +2,8 @@
 node_modules/
 
 # Production build files
-dist/
+# Comment out dist/ to include built files
+# dist/
 
 # Environment variables
 .env
