@@ -215,10 +215,13 @@ export default function AuthPage() {
                           <SelectContent>
                             <SelectGroup>
                               <SelectItem value="pharmacist">Pharmacist</SelectItem>
-                              <SelectItem value="dispenser">Dispenser</SelectItem>
+                              <SelectItem value="doctor">Doctor</SelectItem>
                               <SelectItem value="optometrist">Optometrist</SelectItem>
-                              <SelectItem value="technician">Pharmacy Technician</SelectItem>
-                              <SelectItem value="assistant">Pharmacy Assistant</SelectItem>
+                              <SelectItem value="nurse">Nurse</SelectItem>
+                              <SelectItem value="pharmacy_dispenser">Pharmacy Dispenser</SelectItem>
+                              <SelectItem value="accuracy_checking_technician">Accuracy Checking Technician</SelectItem>
+                              <SelectItem value="dispensing_optician">Dispensing Optician</SelectItem>
+                              <SelectItem value="optical_assistant">Optical Assistant</SelectItem>
                               <SelectItem value="other">Other Healthcare Professional</SelectItem>
                             </SelectGroup>
                           </SelectContent>
