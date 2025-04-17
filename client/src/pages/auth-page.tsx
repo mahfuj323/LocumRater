@@ -222,7 +222,6 @@ export default function AuthPage() {
                               <SelectItem value="accuracy_checking_technician">Accuracy Checking Technician</SelectItem>
                               <SelectItem value="dispensing_optician">Dispensing Optician</SelectItem>
                               <SelectItem value="optical_assistant">Optical Assistant</SelectItem>
-                              <SelectItem value="other">Other Healthcare Professional</SelectItem>
                             </SelectGroup>
                           </SelectContent>
                         </Select>
