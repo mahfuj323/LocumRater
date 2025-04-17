@@ -23,43 +23,14 @@ import {
   SelectTrigger,
   SelectValue 
 } from "@/components/ui/select";
-import { insertUserSchema } from "@shared/schema";
-
-// Login schema
-const loginSchema = z.object({
-  username: z.string().min(3, "Username must be at least 3 characters"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
-});
-
-// Registration schema
-const registerSchema = insertUserSchema.extend({
-  password: z.string().min(6, "Password must be at least 6 characters"),
-  confirmPassword: z.string(),
-}).refine(data => data.password === data.confirmPassword, {
-  message: "Passwords do not match",
-  path: ["confirmPassword"],
-});
+import { useAuth, loginSchema, registerSchema } from "@/hooks/use-auth";
 
 export default function AuthPage() {
   const [activeTab, setActiveTab] = useState<"login" | "register">("login");
   const [location, navigate] = useLocation();
   
-  // Temporarily use mock auth until we resolve the AuthProvider issue
-  const user = null;
-  const loginMutation = {
-    isPending: false,
-    mutateAsync: async (values: any) => {
-      console.log('Login attempt with:', values);
-      return Promise.resolve({ success: true });
-    }
-  };
-  const registerMutation = {
-    isPending: false,
-    mutateAsync: async (values: any) => {
-      console.log('Register attempt with:', values);
-      return Promise.resolve({ success: true });
-    }
-  };
+  // Use the auth context
+  const { user, loginMutation, registerMutation } = useAuth();
 
   // Redirect if already logged in
   useEffect(() => {
@@ -78,7 +49,13 @@ export default function AuthPage() {
   });
 
   const handleLogin = async (values: z.infer<typeof loginSchema>) => {
-    await loginMutation.mutateAsync(values);
+    try {
+      await loginMutation.mutateAsync(values);
+      navigate("/");
+    } catch (error) {
+      // Error is handled by the mutation
+      console.error("Login error:", error);
+    }
   };
 
   // Register form
@@ -95,7 +72,13 @@ export default function AuthPage() {
   });
 
   const handleRegister = async (values: z.infer<typeof registerSchema>) => {
-    await registerMutation.mutateAsync(values);
+    try {
+      await registerMutation.mutateAsync(values);
+      navigate("/");
+    } catch (error) {
+      // Error is handled by the mutation
+      console.error("Registration error:", error);
+    }
   };
 
   return (
